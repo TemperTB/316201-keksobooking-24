@@ -1,6 +1,6 @@
 function getRandomIntFromTo(from, to) {
   if (from < 0 || to <= from) {
-    return undefined;
+    return false;
   }
   from = Math.ceil(from);
   to = Math.floor(to);
@@ -9,7 +9,7 @@ function getRandomIntFromTo(from, to) {
 
 function getRandomIntFromToWithComma(from, to, countSignsAfterComma) {
   if (from < 0 || to <= from) {
-    return undefined;
+    return false;
   }
   return +(Math.random() * (to - from)).toFixed(countSignsAfterComma) + from;
 }

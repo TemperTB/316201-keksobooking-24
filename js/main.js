@@ -4,9 +4,7 @@ const TITLES = ['Хрущевка', 'Сталинка', 'Румынка', 'Бо�
 
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
-const CHECKIN = ['12:00', '13:00', '14:00'];
-
-const CHECKOUT = ['12:00', '13:00', '14:00'];
+const TIMES = ['12:00', '13:00', '14:00'];
 
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
@@ -43,16 +41,16 @@ const createAdvert = () => {
   const randomIntForLng = getRandomIntFromToWithComma(139.7, 139.8, 5);
   return {
     author: {
-      avatar: 'img/avatars/user' + getRandomArrayElement(IMAGES_NUMBER) + '.png',
+      avatar: `img/avatars/user${getRandomArrayElement(IMAGES_NUMBER)}.png`,
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: randomIntForLat + ', ' + randomIntForLng,
+      address: `${randomIntForLat}, ${randomIntForLng}`,
       type: getRandomArrayElement(TYPES),
       rooms: getRandomIntFromTo(1, 1000000),
       guests: getRandomIntFromTo(1, 1000000),
-      checkin: getRandomArrayElement(CHECKIN),
-      checkout: getRandomArrayElement(CHECKOUT),
+      checkin: getRandomArrayElement(TIMES),
+      checkout: getRandomArrayElement(TIMES),
       features: FEATURES.slice(0, getRandomIntFromTo(1, FEATURES.length + 1)),
       description: getRandomArrayElement(DESCRIPTIONS),
       photos: PHOTOS.slice(0, getRandomIntFromTo(1, PHOTOS.length + 1)),
@@ -64,4 +62,5 @@ const createAdvert = () => {
   };
 };
 
+// eslint-disable-next-line no-unused-vars
 const adverts = Array.from({ length: ADVERTS_COUNT }, createAdvert);

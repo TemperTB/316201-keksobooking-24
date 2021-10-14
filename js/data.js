@@ -46,6 +46,6 @@ const createAdvert = () => {
   };
 };
 
-const createAdverts = Array.from({ length: ADVERTS_COUNT }, createAdvert);
+const createAdverts = () => Array.from({ length: ADVERTS_COUNT }, createAdvert);
 
 export { createAdverts };

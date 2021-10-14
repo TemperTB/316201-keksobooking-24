@@ -1,4 +1,3 @@
-import { createAdvert } from './data.js';
+import { createAdverts } from './data.js';
 
-const ADVERTS_COUNT = 10;
-const adverts = Array.from({ length: ADVERTS_COUNT }, createAdvert);
+console.log(createAdverts);

@@ -1,5 +1,7 @@
 import { getRandomIntFromTo, getRandomIntFromToWithComma, getRandomArrayElement } from './utils/random.js';
 
+const ADVERTS_COUNT = 10;
+
 const IMAGES_NUMBER = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'];
 
 const TITLES = ['Хрущевка', 'Сталинка', 'Румынка', 'Болгарка'];
@@ -44,4 +46,6 @@ const createAdvert = () => {
   };
 };
 
-export { createAdvert };
+const createAdverts = Array.from({ length: ADVERTS_COUNT }, createAdvert);
+
+export { createAdverts };

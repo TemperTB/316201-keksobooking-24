@@ -4,7 +4,7 @@ const getRandomIntFromTo = (from, to) => {
   }
   from = Math.ceil(from);
   to = Math.floor(to);
-  return Math.floor(Math.random() * (to - from)) + from;
+  return Math.floor(Math.random() * (to - from + 1)) + from;
 };
 
 const getRandomIntFromToWithComma = (from, to, countSignsAfterComma) => {

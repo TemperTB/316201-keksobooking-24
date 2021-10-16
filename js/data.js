@@ -1,4 +1,4 @@
-import { getRandomIntFromTo, getRandomIntFromToWithComma, getRandomArrayElement } from './utils/random.js';
+import { getRandomIntFromTo, getRandomIntFromToWithComma, getRandomArrayElement } from './utils.js';
 
 const ADVERTS_COUNT = 10;
 

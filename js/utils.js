@@ -16,5 +16,19 @@ const getRandomIntFromToWithComma = (from, to, countSignsAfterComma) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomIntFromTo(0, elements.length - 1)];
 
+const translateAdvertType = (type) => {
+  switch (type) {
+    case 'flat':
+      return 'Квартира';
+    case 'bungalow':
+      return 'Бунгало';
+    case 'house':
+      return 'Дом';
+    case 'palace':
+      return 'Дворец';
+    case 'hotel':
+      return 'Отель';
+  }
+};
 
-export { getRandomIntFromTo, getRandomIntFromToWithComma, getRandomArrayElement };
+export { getRandomIntFromTo, getRandomIntFromToWithComma, getRandomArrayElement, translateAdvertType };

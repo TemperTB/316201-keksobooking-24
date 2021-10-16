@@ -1,5 +1,7 @@
 import { getRandomIntFromTo, getRandomIntFromToWithComma, getRandomArrayElement } from './utils/random.js';
 
+const ADVERTS_COUNT = 10;
+
 const IMAGES_NUMBER = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'];
 
 const TITLES = ['Хрущевка', 'Сталинка', 'Румынка', 'Болгарка'];
@@ -28,14 +30,15 @@ const createAdvert = () => {
     offer: {
       title: getRandomArrayElement(TITLES),
       address: `${randomIntForLat}, ${randomIntForLng}`,
+      price: getRandomIntFromTo(1, 100000),
       type: getRandomArrayElement(TYPES),
-      rooms: getRandomIntFromTo(1, 1000000),
-      guests: getRandomIntFromTo(1, 1000000),
+      rooms: getRandomIntFromTo(1, 10),
+      guests: getRandomIntFromTo(1, 10),
       checkin: getRandomArrayElement(TIMES),
       checkout: getRandomArrayElement(TIMES),
-      features: FEATURES.slice(0, getRandomIntFromTo(1, FEATURES.length + 1)),
+      features: FEATURES.slice(0, getRandomIntFromTo(1, FEATURES.length)),
       description: getRandomArrayElement(DESCRIPTIONS),
-      photos: PHOTOS.slice(0, getRandomIntFromTo(1, PHOTOS.length + 1)),
+      photos: PHOTOS.slice(0, getRandomIntFromTo(1, PHOTOS.length)),
     },
     location: {
       lat: randomIntForLat,
@@ -44,4 +47,6 @@ const createAdvert = () => {
   };
 };
 
-export { createAdvert };
+const createAdverts = () => Array.from({ length: ADVERTS_COUNT }, createAdvert);
+
+export { createAdverts };

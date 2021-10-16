@@ -1,25 +1,11 @@
 import { createAdverts } from './data.js';
+import { translateAdvertType } from './utils.js';
 
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const adverts = createAdverts();
 
 const popupFragment = document.createDocumentFragment();
-
-const translatePopupType = (type) => {
-  switch (type) {
-    case 'flat':
-      return 'Квартира';
-    case 'bungalow':
-      return 'Бунгало';
-    case 'house':
-      return 'Дом';
-    case 'palace':
-      return 'Дворец';
-    case 'hotel':
-      return 'Отель';
-  }
-};
 
 const makePopupPrice = (popupElement, price) => {
   const popupPriceBlock = popupElement.querySelector('.popup__text--price');
@@ -77,7 +63,7 @@ const makePopupList = () => {
     popupElement.querySelector('.popup__text--address').textContent = offer.address;
     popupElement.querySelector('.popup__text--address').textContent = '';
     makePopupPrice(popupElement, offer.price);
-    popupElement.querySelector('.popup__type').textContent = translatePopupType(offer.type);
+    popupElement.querySelector('.popup__type').textContent = translateAdvertType(offer.type);
     popupElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
     popupElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
     makePopupFeatures(popupElement, offer.features);

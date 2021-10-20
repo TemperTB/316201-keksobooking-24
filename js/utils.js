@@ -53,16 +53,35 @@ const addGrayBorder = (block) => {
 };
 
 const hideCapacityOption = (options, numbersChildForHide) => {
-  tag: for (let i = 0; i < options.length; i++) {
+  nextOption: for (let i = 0; i < options.length; i++) {
     options[i].removeAttribute('disabled');
     for (let j = 0; j < numbersChildForHide.length; j++) {
       if (i === numbersChildForHide[j]) {
         options[i].setAttribute('disabled', 'disabled');
-        continue tag;
+        continue nextOption;
       }
     }
   }
 };
+
+const checkAdvertPrice = (element, min, max) => {
+  const value = +element.value;
+  removeErrorBlock(element);
+  if (value > max) {
+    addErrorBlock(element, `Макс. цена за ночь ${max} руб.`);
+  } else if (value < min) {
+    addErrorBlock(element, `Мин. цена за ночь ${min} руб.`);
+  } else {
+    element.setCustomValidity('');
+    addGrayBorder(element);
+  }
+};
+
+const changeAdvertMinPrice = (element, value) => {
+  element.setAttribute('min', value);
+  element.placeholder = value;
+};
+
 
 export {
   getRandomIntFromTo,
@@ -73,5 +92,7 @@ export {
   removeErrorBlock,
   addRedBorder,
   addGrayBorder,
-  hideCapacityOption
+  hideCapacityOption,
+  checkAdvertPrice,
+  changeAdvertMinPrice
 };

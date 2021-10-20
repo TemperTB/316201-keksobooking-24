@@ -1,7 +1,14 @@
-import { addErrorBlock, removeErrorBlock, addRedBorder, addGrayBorder, hideCapacityOption } from './utils.js';
+import {
+  addErrorBlock,
+  removeErrorBlock,
+  addRedBorder,
+  addGrayBorder,
+  hideCapacityOption,
+  checkAdvertPrice,
+  changeAdvertMinPrice
+} from './utils.js';
 
 const addAdvertFormChek = () => {
-
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
   const MAX_PRICE = 1000000;
@@ -30,10 +37,11 @@ const addAdvertFormChek = () => {
   const advertCapacity = advertForm.querySelector('#capacity');
   const advertCapacityOptions = advertCapacity.querySelectorAll('option');
 
+  changeAdvertMinPrice(advertPrice, Types.FLAT[1]); //сразу добавляем атрибут min
+
   hideCapacityOption(advertCapacityOptions, [0, 1, 3]); //сразу отключаем варианты выбора для квартиры
 
   const addCheckAdvertTitle = () => {
-
     advertTitle.addEventListener('input', () => {
       advertTitle.setCustomValidity(' ');
       const valueLength = advertTitle.value.length;
@@ -51,43 +59,40 @@ const addAdvertFormChek = () => {
   };
 
   const addChangeAdvertPricePlaceholder = () => {
-
     advertType.addEventListener('change', () => {
       switch (advertType.value) {
         case Types.BUNGALOW[0]:
-          advertPrice.placeholder = Types.BUNGALOW[1];
+          changeAdvertMinPrice(advertPrice, Types.BUNGALOW[1]);
+          checkAdvertPrice(advertPrice, Types.BUNGALOW[1], MAX_PRICE);
           break;
         case Types.FLAT[0]:
-          advertPrice.placeholder = Types.FLAT[1];
+          changeAdvertMinPrice(advertPrice, Types.FLAT[1]);
+          checkAdvertPrice(advertPrice, Types.FLAT[1], MAX_PRICE);
           break;
         case Types.HOUSE[0]:
-          advertPrice.placeholder = Types.HOUSE[1];
+          changeAdvertMinPrice(advertPrice, Types.HOUSE[1]);
+          checkAdvertPrice(advertPrice, Types.HOUSE[1], MAX_PRICE);
           break;
         case Types.PALACE[0]:
-          advertPrice.placeholder = Types.PALACE[1];
+          changeAdvertMinPrice(advertPrice, Types.PALACE[1]);
+          checkAdvertPrice(advertPrice, Types.PALACE[1], MAX_PRICE);
           break;
         case Types.HOTEL[0]:
-          advertPrice.placeholder = Types.HOTEL[1];
+          changeAdvertMinPrice(advertPrice, Types.HOTEL[1]);
+          checkAdvertPrice(advertPrice, Types.HOTEL[1], MAX_PRICE);
           break;
       }
     });
-
   };
 
   const addCheckAdvertPrice = () => {
 
     advertPrice.addEventListener('input', () => {
       advertPrice.setCustomValidity(' ');
-      const value = advertPrice.value;
-      removeErrorBlock(advertPrice);
-      if (value > MAX_PRICE) {
-        addErrorBlock(advertPrice, `Макс. цена за ночь ${MAX_PRICE} руб.`);
-      } else {
-        advertPrice.setCustomValidity('');
-        addGrayBorder(advertPrice);
-      }
+      checkAdvertPrice(advertPrice, +advertPrice.getAttribute('min'), MAX_PRICE);
       advertPrice.reportValidity();
     });
+
   };
 
   const addSynchronizationTime = () => {
@@ -101,7 +106,6 @@ const addAdvertFormChek = () => {
   };
 
   const addCheckAdvertCapacity = () => {
-
     advertRoomNumber.addEventListener('change', () => {
       switch (advertRoomNumber.value) {
         case Rooms.ONE_ROOM:
@@ -129,11 +133,9 @@ const addAdvertFormChek = () => {
       removeErrorBlock(advertCapacity);
       addGrayBorder(advertCapacity);
     });
-
   };
 
   const checkFormValidate = () => {
-
     advertFormSubmit.addEventListener('click', (evt) => {
       let hasError = false;
 
@@ -156,9 +158,7 @@ const addAdvertFormChek = () => {
       if (hasError) {
         evt.preventDefault();
       }
-
     });
-
   };
 
   addCheckAdvertTitle();

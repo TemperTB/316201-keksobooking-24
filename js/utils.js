@@ -64,6 +64,25 @@ const hideCapacityOption = (options, numbersChildForHide) => {
   }
 };
 
+const checkAdvertPrice = (element, min, max) => {
+  const value = +element.value;
+  removeErrorBlock(element);
+  if (value > max) {
+    addErrorBlock(element, `Макс. цена за ночь ${max} руб.`);
+  } else if (value < min) {
+    addErrorBlock(element, `Мин. цена за ночь ${min} руб.`);
+  } else {
+    element.setCustomValidity('');
+    addGrayBorder(element);
+  }
+};
+
+const changeAdvertMinPrice = (element, value) => {
+  element.setAttribute('min', value);
+  element.placeholder = value;
+};
+
+
 export {
   getRandomIntFromTo,
   getRandomIntFromToWithComma,
@@ -73,5 +92,7 @@ export {
   removeErrorBlock,
   addRedBorder,
   addGrayBorder,
-  hideCapacityOption
+  hideCapacityOption,
+  checkAdvertPrice,
+  changeAdvertMinPrice
 };

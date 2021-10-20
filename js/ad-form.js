@@ -53,22 +53,21 @@ const addAdvertFormChek = () => {
   const addChangeAdvertPricePlaceholder = () => {
 
     advertType.addEventListener('change', () => {
-      const placeholder = advertPrice.placeholder;
       switch (advertType.value) {
         case Types.BUNGALOW[0]:
-          placeholder = Types.BUNGALOW[1];
+          advertPrice.placeholder = Types.BUNGALOW[1];
           break;
         case Types.FLAT[0]:
-          placeholder = Types.FLAT[1];
+          advertPrice.placeholder = Types.FLAT[1];
           break;
         case Types.HOUSE[0]:
-          placeholder = Types.HOUSE[1];
+          advertPrice.placeholder = Types.HOUSE[1];
           break;
         case Types.PALACE[0]:
-          placeholder = Types.PALACE[1];
+          advertPrice.placeholder = Types.PALACE[1];
           break;
-          case Types.HOTEL[0]:
-          placeholder = Types.HOTEL[1];
+        case Types.HOTEL[0]:
+          advertPrice.placeholder = Types.HOTEL[1];
           break;
       }
     });

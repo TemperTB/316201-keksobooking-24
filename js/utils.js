@@ -31,4 +31,47 @@ const translateAdvertType = (type) => {
   }
 };
 
-export { getRandomIntFromTo, getRandomIntFromToWithComma, getRandomArrayElement, translateAdvertType };
+const addErrorBlock = (element, errorMessage) => {
+  const block = document.createElement('div');
+  block.classList.add('add-form__error');
+  block.textContent = errorMessage;
+  element.after(block);
+};
+
+const removeErrorBlock = (neighborBlock) => {
+  if (neighborBlock.nextElementSibling) {
+    neighborBlock.nextElementSibling.remove();
+  }
+};
+
+const addRedBorder = (block) => {
+  block.style.borderColor = '#ff0000';
+};
+
+const addGrayBorder = (block) => {
+  block.style.borderColor = '#d9d9d3';
+};
+
+const hideCapacityOption = (options, numbersChildForHide) => {
+  tag: for (let i = 0; i < options.length; i++) {
+    options[i].removeAttribute('disabled');
+    for (let j = 0; j < numbersChildForHide.length; j++) {
+      if (i === numbersChildForHide[j]) {
+        options[i].setAttribute('disabled', 'disabled');
+        continue tag;
+      }
+    }
+  }
+};
+
+export {
+  getRandomIntFromTo,
+  getRandomIntFromToWithComma,
+  getRandomArrayElement,
+  translateAdvertType,
+  addErrorBlock,
+  removeErrorBlock,
+  addRedBorder,
+  addGrayBorder,
+  hideCapacityOption
+};

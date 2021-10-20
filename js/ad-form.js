@@ -1,6 +1,17 @@
 import { addErrorBlock, removeErrorBlock, addRedBorder, addGrayBorder, hideCapacityOption } from './utils.js';
 
-const addAdvertFormCheks = () => {
+const addAdvertFormChek = () => {
+
+  const MIN_TITLE_LENGTH = 30;
+  const MAX_TITLE_LENGTH = 100;
+  const MAX_PRICE = 1000000;
+  const Rooms = {
+    ONE_ROOM: 1,
+    TWO_ROOMS: 2,
+    THREE_ROOMS: 3,
+    ONE_HUNDRED_ROOMS: 100,
+  };
+
   const advertForm = document.querySelector('.ad-form');
   const advertFormSubmit = advertForm.querySelector('.ad-form__submit');
   const advertTitle = advertForm.querySelector('#title');
@@ -12,8 +23,6 @@ const addAdvertFormCheks = () => {
   hideCapacityOption(advertCapacityOptions, [0, 1, 3]); //сразу отключаем варианты выбора для квартиры
 
   const addCheckAdvertTitle = () => {
-    const MIN_TITLE_LENGTH = 30;
-    const MAX_TITLE_LENGTH = 100;
 
     advertTitle.addEventListener('input', () => {
       advertTitle.setCustomValidity(' ');
@@ -32,7 +41,6 @@ const addAdvertFormCheks = () => {
   };
 
   const addCheckAdvertPrice = () => {
-    const MAX_PRICE = 1000000;
 
     advertPrice.addEventListener('input', () => {
       advertPrice.setCustomValidity(' ');
@@ -49,21 +57,23 @@ const addAdvertFormCheks = () => {
   };
 
   const addCheckAdvertCapacity = () => {
+
     advertRoomNumber.addEventListener('change', () => {
       switch (advertRoomNumber.value) {
-        case '1':
+        case Rooms.ONE_ROOM:
           hideCapacityOption(advertCapacityOptions, [0, 1, 3]);
           break;
-        case '2':
+        case Rooms.TWO_ROOMS:
           hideCapacityOption(advertCapacityOptions, [0, 3]);
           break;
-        case '3':
+        case Rooms.THREE_ROOMS:
           hideCapacityOption(advertCapacityOptions, [3]);
           break;
-        case '100':
+        case Rooms.ONE_HUNDRED_ROOMS:
           hideCapacityOption(advertCapacityOptions, [0, 1, 2]);
           break;
       }
+
       const selectedCapacity = advertCapacity.selectedIndex;
       removeErrorBlock(advertCapacity);
       if (advertCapacityOptions[selectedCapacity].hasAttribute('disabled')) {
@@ -75,30 +85,36 @@ const addAdvertFormCheks = () => {
       removeErrorBlock(advertCapacity);
       addGrayBorder(advertCapacity);
     });
+
   };
 
   const checkFormValidate = () => {
+
     advertFormSubmit.addEventListener('click', (evt) => {
-      let flag = 0;
+      let hasError = false;
+
       if (!advertTitle.validity.valid) {
         addRedBorder(advertTitle);
-        flag = 1;
+        hasError = true;
       }
+
       if (!advertPrice.validity.valid) {
         addRedBorder(advertPrice);
-        flag = 1;
+        hasError = 1;
       }
 
       const selectedCapacity = advertCapacity.selectedIndex;
       if (advertCapacityOptions[selectedCapacity].hasAttribute('disabled')) {
         addRedBorder(advertCapacity);
-        flag = 1;
+        hasError = 1;
       }
 
-      if (flag === 1) {
+      if (hasError) {
         evt.preventDefault();
       }
+
     });
+
   };
 
   addCheckAdvertTitle();
@@ -107,4 +123,4 @@ const addAdvertFormCheks = () => {
   checkFormValidate();
 };
 
-export { addAdvertFormCheks };
+export { addAdvertFormChek };

@@ -11,11 +11,21 @@ const addAdvertFormChek = () => {
     THREE_ROOMS: 3,
     ONE_HUNDRED_ROOMS: 100,
   };
+  const Types = {
+    BUNGALOW: ['bungalow', 0],
+    FLAT: ['flat', 1000],
+    HOTEL: ['hotel', 3000],
+    HOUSE: ['house', 5000],
+    PALACE: ['palace', 10000],
+  };
 
   const advertForm = document.querySelector('.ad-form');
   const advertFormSubmit = advertForm.querySelector('.ad-form__submit');
   const advertTitle = advertForm.querySelector('#title');
+  const advertType = advertForm.querySelector('#type');
   const advertPrice = advertForm.querySelector('#price');
+  const advertTimeIn = advertForm.querySelector('#timein');
+  const advertTimeOut = advertForm.querySelector('#timeout');
   const advertRoomNumber = advertForm.querySelector('#room_number');
   const advertCapacity = advertForm.querySelector('#capacity');
   const advertCapacityOptions = advertCapacity.querySelectorAll('option');
@@ -40,6 +50,31 @@ const addAdvertFormChek = () => {
     });
   };
 
+  const addChangeAdvertPricePlaceholder = () => {
+
+    advertType.addEventListener('change', () => {
+      const placeholder = advertPrice.placeholder;
+      switch (advertType.value) {
+        case Types.BUNGALOW[0]:
+          placeholder = Types.BUNGALOW[1];
+          break;
+        case Types.FLAT[0]:
+          placeholder = Types.FLAT[1];
+          break;
+        case Types.HOUSE[0]:
+          placeholder = Types.HOUSE[1];
+          break;
+        case Types.PALACE[0]:
+          placeholder = Types.PALACE[1];
+          break;
+          case Types.HOTEL[0]:
+          placeholder = Types.HOTEL[1];
+          break;
+      }
+    });
+
+  };
+
   const addCheckAdvertPrice = () => {
 
     advertPrice.addEventListener('input', () => {
@@ -53,6 +88,16 @@ const addAdvertFormChek = () => {
         addGrayBorder(advertPrice);
       }
       advertPrice.reportValidity();
+    });
+  };
+
+  const addSynchronizationTime = () => {
+    advertTimeIn.addEventListener('change', () => {
+      advertTimeOut.value = advertTimeIn.value;
+    });
+
+    advertTimeOut.addEventListener('change', () => {
+      advertTimeIn.value = advertTimeOut.value;
     });
   };
 
@@ -118,7 +163,9 @@ const addAdvertFormChek = () => {
   };
 
   addCheckAdvertTitle();
+  addChangeAdvertPricePlaceholder();
   addCheckAdvertPrice();
+  addSynchronizationTime();
   addCheckAdvertCapacity();
   checkFormValidate();
 };

@@ -8,6 +8,9 @@ const TITLES = ['Хрущевка', 'Сталинка', 'Румынка', 'Бо�
 
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
+/**
+ * 
+ */
 const TIMES = ['12:00', '13:00', '14:00'];
 
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];

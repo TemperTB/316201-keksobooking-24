@@ -4,8 +4,8 @@ import { addAdvertFormChek } from './ad-form.js';
 
 const mapCanvas = document.querySelector('#map-canvas');
 const popupList = makePopupList();
-const firstPopupItem = popupList.querySelectorAll('.popup');
-mapCanvas.appendChild(firstPopupItem[0]);
+const popupItems = popupList.querySelectorAll('.popup');
+mapCanvas.appendChild(popupItems[0]);
 
 deactivateForm('ad-form');
 activateForm('ad-form');

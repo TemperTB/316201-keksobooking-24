@@ -9,18 +9,32 @@ const addAdvertFormChek = () => {
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
   const MAX_PRICE = 1000000;
+  /**
+   * value {string} - количество комнат
+   * valuesGuests {Object[]} - значения, которые могут быть выбраны в списке "Количество мест"
+   */
   const Rooms = {
-    ONE_ROOM: '1',
-    TWO_ROOMS: '2',
-    THREE_ROOMS: '3',
-    ONE_HUNDRED_ROOMS: '100',
+    ONE_ROOM: {
+      value: '1',
+      valuesGuests: ['1'],
+    },
+    TWO_ROOMS: {
+      value: '2',
+      valuesGuests: ['1', '2'],
+    },
+    THREE_ROOMS: {
+      value: '3',
+      valuesGuests: ['1', '2', '3'],
+    },
+    ONE_HUNDRED_ROOMS: {
+      value: '100',
+      valuesGuests: ['0'],
+    },
   };
-  const Guests = {
-    ONE_ROOM: ['1'],
-    TWO_ROOMS: ['1', '2'],
-    THREE_ROOMS: ['1', '2', '3'],
-    ONE_HUNDRED_ROOMS: ['0'],
-  };
+  /**
+   * [0] - тип жилья, приходящий с сервера
+   * [1] - минимальная цена
+   */
   const Types = {
     BUNGALOW: ['bungalow', 0],
     FLAT: ['flat', 1000],
@@ -40,6 +54,10 @@ const addAdvertFormChek = () => {
   const advertCapacity = advertForm.querySelector('#capacity');
   const advertCapacityOptions = advertCapacity.querySelectorAll('option');
 
+  /**
+   * Добавляет обработчик ввода "заголовок объявления"
+   * При input происходит проверка на валидность
+   */
   const addCheckAdvertTitle = () => {
     advertTitle.addEventListener('input', () => {
       advertTitle.setCustomValidity(' ');
@@ -88,6 +106,10 @@ const addAdvertFormChek = () => {
     }
   };
 
+  /**
+   * Добавляет обработчик изменения "тип жилья"
+   * При изменении "тип жилья", меняется min "цена за ночь" и сразу проверяется
+   */
   const addChangeAdvertPricePlaceholder = () => {
     advertType.addEventListener('change', () => {
       switch (advertType.value) {
@@ -115,6 +137,10 @@ const addAdvertFormChek = () => {
     });
   };
 
+  /**
+   * Добавляет обработчик ввода "цена за ночь"
+   * При изменении "цена за ночь", происходит проверка на валидность
+   */
   const addCheckAdvertPrice = () => {
     advertPrice.addEventListener('input', () => {
       advertPrice.setCustomValidity(' ');
@@ -123,6 +149,11 @@ const addAdvertFormChek = () => {
     });
   };
 
+  /**
+   * Добавляет обработчики изменения времени заезда/выезда
+   * При изменении "время заезда" - "время выезда" изменяется на такое же.
+   * И наоборот, при изменении "время выезда" - меняется "время заезда".
+   */
   const addSynchronizationTime = () => {
     advertTimeIn.addEventListener('change', () => {
       advertTimeOut.value = advertTimeIn.value;
@@ -133,20 +164,24 @@ const addAdvertFormChek = () => {
     });
   };
 
+  /**
+   * Добавляет обрабочик изменения количества комнат.
+   * При выборе "количество комнат", ограничивается выбор "количество мест"
+   */
   const addCheckAdvertCapacity = () => {
     advertRoomNumber.addEventListener('change', () => {
       switch (advertRoomNumber.value) {
-        case Rooms.ONE_ROOM:
-          hideCapacityOption(advertCapacityOptions, Guests.ONE_ROOM);
+        case Rooms.ONE_ROOM.value:
+          hideCapacityOption(advertCapacityOptions, Rooms.ONE_ROOM.valuesGuests);
           break;
-        case Rooms.TWO_ROOMS:
-          hideCapacityOption(advertCapacityOptions, Guests.TWO_ROOMS);
+        case Rooms.TWO_ROOMS.value:
+          hideCapacityOption(advertCapacityOptions, Rooms.TWO_ROOMS.valuesGuests);
           break;
-        case Rooms.THREE_ROOMS:
-          hideCapacityOption(advertCapacityOptions, Guests.THREE_ROOMS);
+        case Rooms.THREE_ROOMS.value:
+          hideCapacityOption(advertCapacityOptions, Rooms.THREE_ROOMS.valuesGuests);
           break;
-        case Rooms.ONE_HUNDRED_ROOMS:
-          hideCapacityOption(advertCapacityOptions, Guests.ONE_HUNDRED_ROOMS);
+        case Rooms.ONE_HUNDRED_ROOMS.value:
+          hideCapacityOption(advertCapacityOptions, Rooms.ONE_HUNDRED_ROOMS.valuesGuests);
           break;
       }
 
@@ -163,6 +198,11 @@ const addAdvertFormChek = () => {
     });
   };
 
+  /**
+   * Добавляет обработчик нажатия кнопки "Опубликовать"
+   * Присходит валидация полей.
+   * У полей не прошедших валидацию рамка становится красной
+   */
   const checkFormValidate = () => {
     advertFormSubmit.addEventListener('click', (evt) => {
       let hasError = false;
@@ -190,7 +230,7 @@ const addAdvertFormChek = () => {
   };
 
   changeAdvertMinPrice(advertPrice, Types.FLAT[1]); //сразу выставляем минимальную цену на жилье
-  hideCapacityOption(advertCapacityOptions, Guests.ONE_ROOM); //сразу ограничиваем выбор количества гостей для 'квартиры'
+  hideCapacityOption(advertCapacityOptions, Rooms.ONE_ROOM.valuesGuests); //сразу ограничиваем выбор количества гостей для 'квартиры'
   addCheckAdvertTitle();
   addChangeAdvertPricePlaceholder();
   addCheckAdvertPrice();

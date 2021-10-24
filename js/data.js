@@ -20,6 +20,10 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
+/**
+ * Создает объявление (имитация данных с сервера)
+ * @returns {Object}
+ */
 const createAdvert = () => {
   const randomIntForLat = getRandomIntFromToWithComma(35.65, 35.7, 5);
   const randomIntForLng = getRandomIntFromToWithComma(139.7, 139.8, 5);
@@ -47,6 +51,12 @@ const createAdvert = () => {
   };
 };
 
-const createAdverts = () => Array.from({ length: ADVERTS_COUNT }, createAdvert);
+/**
+ * Создает массив объявлений
+ * Длина массива ADVERTS_COUNT
+ */
+const createAdverts = () => {
+  return Array.from({ length: ADVERTS_COUNT }, createAdvert);
+};
 
 export { createAdverts };

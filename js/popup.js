@@ -1,22 +1,29 @@
-import { createAdverts } from './data.js';
 import { translateAdvertType } from './utils.js';
 
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const adverts = createAdverts();
-
 const popupFragment = document.createDocumentFragment();
 
-const makePopupPrice = (popupElement, price) => {
-  const popupPriceBlock = popupElement.querySelector('.popup__text--price');
+/**
+ * Изменяет "цена за ночь"
+ * @param {Object} popupElement - карточка объявления
+ * @param {number} price - цена
+ */
+const makePopupPrice = (element, price) => {
+  const popupPriceBlock = element.querySelector('.popup__text--price');
   const newElement = document.createElement('span');
   newElement.textContent = '₽/ночь';
   popupPriceBlock.textContent = `${price} `;
   popupPriceBlock.appendChild(newElement);
 };
 
-const makePopupPhotos = (popupElement, photos) => {
-  const popupPhotos = popupElement.querySelector('.popup__photos');
+/**
+ * Добавляет фотографии
+ * @param {Object} element - карточка объявления
+ * @param {Object[]} price - массив с src к фотографиям
+ */
+const makePopupPhotos = (element, photos) => {
+  const popupPhotos = element.querySelector('.popup__photos');
   if (photos.length === 0) {
     popupPhotos.style.display = 'none';
     return;
@@ -31,8 +38,14 @@ const makePopupPhotos = (popupElement, photos) => {
   });
 };
 
-const makePopupFeatures = (popupElement, features) => {
-  const popupFeatures = popupElement.querySelector('.popup__features');
+/**
+ * Добавляет иконки "особенностей"
+ * @param {Object} element - карточка объявления
+ * @param {Object[]} features - особенности
+ * @returns
+ */
+const makePopupFeatures = (element, features) => {
+  const popupFeatures = element.querySelector('.popup__features');
   if (features.length === 0) {
     popupFeatures.style.display = 'none';
     return;
@@ -47,25 +60,38 @@ const makePopupFeatures = (popupElement, features) => {
   });
 };
 
-const checkEmptyBlock = (fragment) => {
-  const fragmentChildren = fragment.childNodes;
-  fragmentChildren.forEach((child) => {
+/**
+ * Скрывает пустые блоки объявления
+ * @param {Объект} element - карточка объявления
+ */
+const checkEmptyBlock = (element) => {
+  const elementChildren = element.childNodes;
+  elementChildren.forEach((child) => {
     if (child.textContent === '') {
       child.style.display = 'none';
     }
   });
 };
 
-const makePopupList = () => {
-  adverts.forEach(({ author, offer }) => {
+/**
+ * Создает карточки объявлений на основе данных с сервера
+ * @param {Object[]} array - данные с сервера для создания карточек объявлений
+ * @returns {Object} - карточки объявлений
+ */
+const makePopupList = (array) => {
+  array.forEach(({ author, offer }) => {
     const popupElement = popupTemplate.cloneNode(true);
     popupElement.querySelector('.popup__title').textContent = offer.title;
     popupElement.querySelector('.popup__text--address').textContent = offer.address;
     popupElement.querySelector('.popup__text--address').textContent = '';
     makePopupPrice(popupElement, offer.price);
     popupElement.querySelector('.popup__type').textContent = translateAdvertType(offer.type);
-    popupElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-    popupElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+    popupElement.querySelector(
+      '.popup__text--capacity'
+    ).textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+    popupElement.querySelector(
+      '.popup__text--time'
+    ).textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
     makePopupFeatures(popupElement, offer.features);
     popupElement.querySelector('.popup__description').textContent = offer.description;
     makePopupPhotos(popupElement, offer.photos);

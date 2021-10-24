@@ -1,11 +1,14 @@
+import { createAdverts } from './data.js';
 import { makePopupList } from './popup.js';
 import { deactivateForm, activateForm } from './form.js';
 import { addAdvertFormChek } from './ad-form.js';
 
+
+const adverts = createAdverts();
+const popupList = makePopupList(adverts);
+const popupItems = popupList.querySelectorAll('.popup');
 const mapCanvas = document.querySelector('#map-canvas');
-const popupList = makePopupList();
-const firstPopupItem = popupList.querySelectorAll('.popup');
-mapCanvas.appendChild(firstPopupItem[0]);
+mapCanvas.appendChild(popupItems[0]);
 
 deactivateForm('ad-form');
 activateForm('ad-form');

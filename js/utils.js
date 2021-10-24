@@ -1,6 +1,7 @@
 
 /**
  * Возвращает случайное целое число из заданного диапазона [вкючительно]
+ * либо false если одно из чисел отрицательно, либо to <= from
  * @param {number} from - нижний диапазон
  * @param {number} to - верхний диапазон
  * @returns {number} - целое число
@@ -16,6 +17,7 @@ const getRandomIntFromTo = (from, to) => {
 
 /**
  * Возвращает случайное целое число из заданного диапазона (не включая верхний диапазон) с заданным количеством знаков после запятой
+ * либо false если одно из чисел отрицательно, либо to <= from
  * @param {number} from - нижний диапазон
  * @param {number} to - верхний диапазон
  * @param {number} countSignsAfterComma - количество знаков после запятой
@@ -40,7 +42,7 @@ const getRandomArrayElement = (elements) => elements[getRandomIntFromTo(0, eleme
  * @param {string} type - данные от сервера
  * @example
  * // returns 'Квартира'
- * translateAdverttype('flat');
+ * translateAdvertType('flat');
  * @returns {string}
  */
 const translateAdvertType = (type) => {
@@ -81,58 +83,29 @@ const removeErrorBlock = (previousElement) => {
 };
 
 /**
- * Меняет цвет рамки у элемента на красный (#ff0000)
- * @param {Object} element
+ * Меняет цвет рамки у элемента
+ * @param {Object} element - элемент
+ * @param {string} color - цвет
  */
-const addRedBorder = (element) => {
-  element.style.borderColor = '#ff0000';
+const changeBorderColor = (element, color) => {
+  element.style.borderColor = color;
 };
 
 /**
- * Меняет цвет рамки у элемента на серый (#d9d9d3)
- * @param {Object} element
+ *Оставляет возможность выбора определенных пунктов выпадающего списка
+ * @param {Object} options - пункты выпадающего списка
+ * @param {Object[]} numbersChildForHide - значения, которые нужно оставить
  */
-const addGrayBorder = (element) => {
-  element.style.borderColor = '#d9d9d3';
-};
-
-
-const hideCapacityOption = (options, numbersChildForHide) => {
-  tag: for (let i = 0; i < options.length; i++) {
-    options[i].removeAttribute('disabled');
-    for (let j = 0; j < numbersChildForHide.length; j++) {
-      if (i === numbersChildForHide[j]) {
-        options[i].setAttribute('disabled', 'disabled');
-        continue tag;
+const hideCapacityOption = (options, values) => {
+  nextOption: for (let i = 0; i < options.length; i++) {
+    options[i].setAttribute('disabled', 'disabled');
+    for (let j = 0; j < values.length; j++) {
+      if (options[i].value === values[j]) {
+        options[i].removeAttribute('disabled');
+        continue nextOption;
       }
     }
   }
-};
-
-/**
- * Сверяет value элемента с минимальным и максимальным значением.
- * При ошибке выводит подсказку.
- * В случае отсутствия ошибки перекрашивает рамку в стандартную
- * @param {Object} element - элемент для проверки
- * @param {number} min - минимальное значение
- * @param {number} max - максимальное значение
- */
-const checkAdvertPrice = (element, min, max) => {
-  const value = +element.value;
-  removeErrorBlock(element);
-  if (value > max) {
-    addErrorBlock(element, `Макс. цена за ночь ${max} руб.`);
-  } else if (value < min) {
-    addErrorBlock(element, `Мин. цена за ночь ${min} руб.`);
-  } else {
-    element.setCustomValidity('');
-    addGrayBorder(element);
-  }
-};
-
-const changeAdvertMinPrice = (element, value) => {
-  element.setAttribute('min', value);
-  element.placeholder = value;
 };
 
 export {
@@ -142,7 +115,6 @@ export {
   translateAdvertType,
   addErrorBlock,
   removeErrorBlock,
-  addRedBorder,
-  addGrayBorder,
+  changeBorderColor,
   hideCapacityOption
 };

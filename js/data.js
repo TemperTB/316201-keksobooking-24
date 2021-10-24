@@ -8,9 +8,6 @@ const TITLES = ['Хрущевка', 'Сталинка', 'Румынка', 'Бо�
 
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
-/**
- * 
- */
 const TIMES = ['12:00', '13:00', '14:00'];
 
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -23,6 +20,10 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
+/**
+ * Создает объявление (имитация данных с сервера)
+ * @returns {Object}
+ */
 const createAdvert = () => {
   const randomIntForLat = getRandomIntFromToWithComma(35.65, 35.7, 5);
   const randomIntForLng = getRandomIntFromToWithComma(139.7, 139.8, 5);
@@ -50,6 +51,10 @@ const createAdvert = () => {
   };
 };
 
+/**
+ * Создает массив объявлений
+ * Длина массива ADVERTS_COUNT
+ */
 const createAdverts = () => Array.from({ length: ADVERTS_COUNT }, createAdvert);
 
 export { createAdverts };

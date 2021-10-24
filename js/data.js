@@ -55,8 +55,6 @@ const createAdvert = () => {
  * Создает массив объявлений
  * Длина массива ADVERTS_COUNT
  */
-const createAdverts = () => {
-  return Array.from({ length: ADVERTS_COUNT }, createAdvert);
-};
+const createAdverts = () => Array.from({ length: ADVERTS_COUNT }, createAdvert);
 
 export { createAdverts };

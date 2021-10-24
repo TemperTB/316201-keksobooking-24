@@ -5,7 +5,6 @@ import { addAdvertFormChek } from './ad-form.js';
 
 
 const adverts = createAdverts();
-console.log(adverts);
 const popupList = makePopupList(adverts);
 const popupItems = popupList.querySelectorAll('.popup');
 const mapCanvas = document.querySelector('#map-canvas');

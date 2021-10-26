@@ -1,15 +1,15 @@
-import { makePopupList } from './popup.js';
-import { deactivateForm, activateForm } from './form.js';
+import { createAdverts } from './data.js';
+import { deactivateForm } from './form.js';
 import { addAdvertFormChek } from './ad-form.js';
-
-const mapCanvas = document.querySelector('#map-canvas');
-const popupList = makePopupList();
-const firstPopupItem = popupList.querySelectorAll('.popup');
-mapCanvas.appendChild(firstPopupItem[0]);
+import { loadMap, addMainPinMaker, addPinMaker } from './map.js';
 
 deactivateForm('ad-form');
-activateForm('ad-form');
 deactivateForm('map__filters');
-activateForm('map__filters');
+
+const adverts = createAdverts();
+loadMap();
+addMainPinMaker();
+addPinMaker(adverts);
+
 
 addAdvertFormChek();

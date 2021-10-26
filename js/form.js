@@ -1,3 +1,7 @@
+/**
+ * Деактивация формы
+ * @param {string} formClass - class формы из разметки
+ */
 const deactivateForm = (formClass) => {
   const form = document.querySelector(`.${formClass}`);
   const formElements = form.querySelectorAll('fieldset');
@@ -7,6 +11,10 @@ const deactivateForm = (formClass) => {
   });
 };
 
+/**
+ * Активация формы
+ * @param {string} formClass - class формы из разметки
+ */
 const activateForm = (formClass) => {
   const form = document.querySelector(`.${formClass}`);
   const formElements = form.querySelectorAll('fieldset');

@@ -1,12 +1,12 @@
-import { activateForm } from './form.js';
 import { makePopup } from './popup.js';
 
 const map = L.map('map-canvas');
 
 /**
  * Загружает карту, активирует формы по окончанию
+ * @param {function activateForm} - функция активации формы
  */
-const loadMap = () => {
+const loadMap = (activateForm) => {
   map.addEventListener('load', () => {
     activateForm('map__filters');
     activateForm('ad-form');

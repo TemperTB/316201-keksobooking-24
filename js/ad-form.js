@@ -2,7 +2,7 @@ import {
   addErrorBlock,
   removeErrorBlock,
   changeBorderColor,
-  hideCapacityOption,
+  hideCapacityOption
 } from './utils.js';
 
 const addAdvertFormChek = () => {

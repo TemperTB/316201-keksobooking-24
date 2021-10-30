@@ -2,8 +2,6 @@ import { translateAdvertType } from './utils.js';
 
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const popupFragment = document.createDocumentFragment();
-
 /**
  * Изменяет "цена за ночь"
  * @param {Object} popupElement - карточка объявления
@@ -82,35 +80,6 @@ const checkEmptyBlock = (element) => {
 };
 
 /**
- * Создает карточки объявлений на основе данных с сервера
- * @param {Object[]} array - данные с сервера для создания карточек объявлений
- * @returns {Object} - карточки объявлений
- */
-const makePopupList = (array) => {
-  array.forEach(({ author, offer }) => {
-    const popupElement = popupTemplate.cloneNode(true);
-    popupElement.querySelector('.popup__title').textContent = offer.title;
-    popupElement.querySelector('.popup__text--address').textContent = offer.address;
-    popupElement.querySelector('.popup__text--address').textContent = '';
-    makePopupPrice(popupElement, offer.price);
-    popupElement.querySelector('.popup__type').textContent = translateAdvertType(offer.type);
-    popupElement.querySelector(
-      '.popup__text--capacity',
-    ).textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-    popupElement.querySelector(
-      '.popup__text--time',
-    ).textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-    makePopupFeatures(popupElement, offer.features);
-    popupElement.querySelector('.popup__description').textContent = offer.description;
-    makePopupPhotos(popupElement, offer.photos);
-    popupElement.querySelector('.popup__avatar').src = author.avatar;
-    checkEmptyBlock(popupElement);
-    popupFragment.appendChild(popupElement);
-  });
-  return popupFragment;
-};
-
-/**
  * Создает карточку объявления по шаблону
  * @param {Object} author - данные об авторе
  * @param {Object} offer - данные о жилье
@@ -137,4 +106,4 @@ const makePopup = (author, offer) => {
   return popupElement;
 };
 
-export { makePopupList, makePopup };
+export { makePopup };

@@ -24,6 +24,10 @@ const makePopupPrice = (element, price) => {
  */
 const makePopupPhotos = (element, photos) => {
   const popupPhotos = element.querySelector('.popup__photos');
+  if (!photos) {
+    popupPhotos.style.display = 'none';
+    return;
+  }
   if (photos.length === 0) {
     popupPhotos.style.display = 'none';
     return;
@@ -46,6 +50,10 @@ const makePopupPhotos = (element, photos) => {
  */
 const makePopupFeatures = (element, features) => {
   const popupFeatures = element.querySelector('.popup__features');
+  if (!features) {
+    popupFeatures.style.display = 'none';
+    return;
+  }
   if (features.length === 0) {
     popupFeatures.style.display = 'none';
     return;

@@ -40,8 +40,7 @@ const getRandomArrayElement = (elements) => elements[getRandomIntFromTo(0, eleme
 /**
  * Переводит тип жилья в объявлении в читабельном для пользователя виде
  * @param {string} type - данные от сервера
- * @example
- * // returns 'Квартира'
+ * @example // returns 'Квартира'
  * translateAdvertType('flat');
  * @returns {string}
  */

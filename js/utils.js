@@ -1,4 +1,3 @@
-
 /**
  * Возвращает случайное целое число из заданного диапазона [вкючительно]
  * либо false если одно из чисел отрицательно, либо to <= from
@@ -35,7 +34,8 @@ const getRandomIntFromToWithComma = (from, to, countSignsAfterComma) => {
  * @param {Object[]} elements - массив
  * @returns - cлучаный элемент массива
  */
-const getRandomArrayElement = (elements) => elements[getRandomIntFromTo(0, elements.length - 1)];
+const getRandomArrayElement = (elements) =>
+  elements[getRandomIntFromTo(0, elements.length - 1)];
 
 /**
  * Переводит тип жилья в объявлении в читабельном для пользователя виде
@@ -107,6 +107,113 @@ const hideCapacityOption = (options, values) => {
   }
 };
 
+/**
+ * Проверка на нажатие клавиши Escape в разных браузерах
+ * @param {*} evt
+ * @returns {string}
+ */
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+
+/**
+ * Показывает пользователю сообщение об успешной отправке.
+ */
+const showSucessMessageToUser = () => {
+  const messageTemplate = document
+    .querySelector('#success')
+    .content.querySelector('.success');
+  const messageToUser = messageTemplate.cloneNode(true);
+  const footer = document.querySelector('footer');
+  footer.after(messageToUser);
+
+  /**
+   * Добавляет обработчик закрытия окна
+   */
+  const addEventForCloseWindow = () => {
+    document.addEventListener('click', onMessageClick);
+    document.addEventListener('keydown', onMessageEscKeydown);
+  };
+
+  /**
+   * Удаляет элемент и обработчики закрытия окна
+   * @param {Object} element - элемент для удаления
+   */
+  const removeElement = (element) => {
+    element.remove();
+    document.removeEventListener('click', onMessageClick);
+    document.removeEventListener('keydown', onMessageEscKeydown);
+  };
+
+  /**
+   * Действие при клике мышкой
+   */
+  function onMessageClick() {
+    removeElement(messageToUser);
+  }
+
+  /**
+   * Действие при нажатии Esc
+   */
+  function onMessageEscKeydown(evt) {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      removeElement(messageToUser);
+    }
+  }
+
+  addEventForCloseWindow();
+};
+
+/**
+ * Показывает пользователю сообщение о неудачной отправке.
+ */
+const showErrorMessageToUser = () => {
+  const messageTemplate = document
+    .querySelector('#error')
+    .content.querySelector('.error');
+  const messageToUser = messageTemplate.cloneNode(true);
+  const footer = document.querySelector('footer');
+  footer.after(messageToUser);
+  const tryAgainButton = document.querySelector('.error__button');
+
+  /**
+   * Добавляет обработчик закрытия окна
+   */
+  const addEventForCloseWindow = () => {
+    tryAgainButton.addEventListener('click', onMessageClick);
+    document.addEventListener('keydown', onMessageEscKeydown);
+  };
+
+  /**
+   * Удаляет элемент и обработчики закрытия окна
+   * @param {Object} element - элемент для удаления
+   */
+  const removeElement = (element) => {
+    element.remove();
+    tryAgainButton.removeEventListener('click', onMessageClick);
+    document.removeEventListener('keydown', onMessageEscKeydown);
+  };
+
+  /**
+   * Действие при клике мышкой
+   */
+  function onMessageClick() {
+    removeElement(messageToUser);
+  }
+
+  /**
+   * Действие при нажатии Esc
+   */
+  function onMessageEscKeydown(evt) {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      removeElement(messageToUser);
+    }
+  }
+
+  addEventForCloseWindow();
+};
+
 export {
   getRandomIntFromTo,
   getRandomIntFromToWithComma,
@@ -115,5 +222,7 @@ export {
   addErrorBlock,
   removeErrorBlock,
   changeBorderColor,
-  hideCapacityOption
+  hideCapacityOption,
+  showSucessMessageToUser,
+  showErrorMessageToUser
 };

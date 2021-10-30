@@ -5,6 +5,7 @@ import {
   hideCapacityOption
 } from './utils.js';
 import { resetMainPinMarkerCoordinates } from './map.js';
+import {sendData} from './api.js';
 
 const COLOR_RED = '#ff0000';
 /**
@@ -52,6 +53,7 @@ const advertForm = document.querySelector('.ad-form');
 const advertFormSubmit = advertForm.querySelector('.ad-form__submit');
 const advertFormReset = advertForm.querySelector('.ad-form__reset');
 const advertTitle = advertForm.querySelector('#title');
+const advertAddress = advertForm.querySelector('#address');
 const advertType = advertForm.querySelector('#type');
 const advertPrice = advertForm.querySelector('#price');
 const advertTimeIn = advertForm.querySelector('#timein');
@@ -63,6 +65,7 @@ const advertFeatureCheckboxes = advertForm.querySelectorAll('.features__checkbox
 const advertFeatureLabels = advertForm.querySelectorAll(
   '.features__label',
 );
+const advertDescription = advertForm.querySelector('#description');
 
 /**
  * Очистка формы, перенос главной метки на карте в стандартное положение
@@ -75,9 +78,8 @@ const resetAdvertForm = () => {
   advertTimeOut.value = '12:00';
   advertRoomNumber.value = Rooms.ONE_ROOM.value;
   advertCapacity.value = Rooms.ONE_ROOM.valuesGuests;
-  removeErrorBlock(advertTitle);
-  removeErrorBlock(advertPrice);
-  removeErrorBlock(advertCapacity);
+  hideCapacityOption(advertCapacityOptions, Rooms.ONE_ROOM.valuesGuests);
+  advertDescription.value = '';
   for (let i = 0; i < advertFeatureCheckboxes.length; i++) {
     if (advertFeatureCheckboxes[i].checked) {
       advertFeatureLabels[i].backgroundColor = '#ffffff';
@@ -87,6 +89,9 @@ const resetAdvertForm = () => {
   resetMainPinMarkerCoordinates();
 };
 
+/**
+ * "Оживляет форму"
+ */
 const addAdvertFormChek = () => {
   /**
    * Добавляет обработчик ввода "заголовок объявления". При input происходит проверка на валидность
@@ -291,6 +296,21 @@ const addAdvertFormChek = () => {
     advertFormReset.addEventListener('click', (evt) => {
       evt.preventDefault();
       resetAdvertForm();
+      removeErrorBlock(advertTitle);
+      removeErrorBlock(advertPrice);
+      removeErrorBlock(advertCapacity);
+    });
+  };
+
+  /**
+   * Добавляет обработчик отправки формы.
+   */
+  const addAdvertFormSubmit = () => {
+    advertForm.addEventListener('submit', (evt) => {
+      advertAddress.disabled = false;
+      evt.preventDefault();
+      sendData(new FormData(evt.target), resetAdvertForm);
+      advertAddress.disabled = true;
     });
   };
 
@@ -303,6 +323,7 @@ const addAdvertFormChek = () => {
   addCheckAdvertCapacity();
   checkFormValidate();
   addFormReset();
+  addAdvertFormSubmit();
 };
 
 export { addAdvertFormChek };

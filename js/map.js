@@ -1,6 +1,16 @@
 import { makePopup } from './popup.js';
 
 const map = L.map('map-canvas');
+const mainPinMarker = L.marker(
+  {
+    lat: 35.6895,
+    lng: 139.692,
+  },
+  {
+    draggable: true,
+  },
+);
+const advertAddress = document.querySelector('#address');
 
 /**
  * Загружает карту, активирует формы по окончанию
@@ -27,7 +37,10 @@ const loadMap = (activateForm) => {
 };
 
 /**
- * Добавляет главный маркер. Создает обработчик на главный маркер. При переносе маркера в поле "Адрес (координаты)" меняется значение
+ * Добавляет главный маркер на карту.
+ * Создает обработчик на главный маркер.
+ * При добавлении в поле "Адрес (координаты)" устанавливается значение.
+ * При переносе маркера в поле "Адрес (координаты)" меняется значение.
  */
 const addMainPinMaker = () => {
   const mainPinIcon = L.icon({
@@ -36,18 +49,8 @@ const addMainPinMaker = () => {
     iconAnchor: [26, 26],
   });
 
-  const mainPinMarker = L.marker(
-    {
-      lat: 35.6895,
-      lng: 139.692,
-    },
-    {
-      draggable: true,
-      icon: mainPinIcon,
-    },
-  );
+  mainPinMarker.setIcon(mainPinIcon);
 
-  const advertAddress = document.querySelector('#address');
   advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${
     mainPinMarker.getLatLng().lng
   }`;
@@ -91,4 +94,17 @@ const addPinMaker = (array) => {
   });
 };
 
-export { loadMap, addMainPinMaker, addPinMaker };
+/**
+ * Переносит главный маркер на начальные координаты
+ */
+const resetMainPinMarkerCoordinates = () => {
+  mainPinMarker.setLatLng({
+    lat: 35.6895,
+    lng: 139.692,
+  });
+  advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${
+    mainPinMarker.getLatLng().lng
+  }`;
+};
+
+export { loadMap, addMainPinMaker, addPinMaker, resetMainPinMarkerCoordinates };

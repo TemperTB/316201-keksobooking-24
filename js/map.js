@@ -1,12 +1,22 @@
-import { activateForm } from './form.js';
 import { makePopup } from './popup.js';
 
 const map = L.map('map-canvas');
+const mainPinMarker = L.marker(
+  {
+    lat: 35.6895,
+    lng: 139.692,
+  },
+  {
+    draggable: true,
+  },
+);
+const advertAddress = document.querySelector('#address');
 
 /**
  * Загружает карту, активирует формы по окончанию
+ * @param {function activateForm} - функция активации формы
  */
-const loadMap = () => {
+const loadMap = (activateForm) => {
   map.addEventListener('load', () => {
     activateForm('map__filters');
     activateForm('ad-form');
@@ -27,9 +37,10 @@ const loadMap = () => {
 };
 
 /**
- * Добавляет главный маркер/
+ * Добавляет главный маркер на карту.
  * Создает обработчик на главный маркер.
- * При переносе маркера в поле "Адрес (координаты)" меняется значение
+ * При добавлении в поле "Адрес (координаты)" устанавливается значение.
+ * При переносе маркера в поле "Адрес (координаты)" меняется значение.
  */
 const addMainPinMaker = () => {
   const mainPinIcon = L.icon({
@@ -38,18 +49,8 @@ const addMainPinMaker = () => {
     iconAnchor: [26, 26],
   });
 
-  const mainPinMarker = L.marker(
-    {
-      lat: 35.6895,
-      lng: 139.692,
-    },
-    {
-      draggable: true,
-      icon: mainPinIcon,
-    },
-  );
+  mainPinMarker.setIcon(mainPinIcon);
 
-  const advertAddress = document.querySelector('#address');
   advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${
     mainPinMarker.getLatLng().lng
   }`;
@@ -64,8 +65,8 @@ const addMainPinMaker = () => {
 };
 
 /**
- * Добавляет маркеры объявлений на карту
- * Добавляет балуны и при клике
+ * Добавляет маркеры объявлений на карту.
+ * Добавляет балуны при клике.
  * @param {Object[]} array - массив с данными для объявлений
  */
 const addPinMaker = (array) => {
@@ -93,4 +94,17 @@ const addPinMaker = (array) => {
   });
 };
 
-export { loadMap, addMainPinMaker, addPinMaker };
+/**
+ * Переносит главный маркер на начальные координаты
+ */
+const resetMainPinMarkerCoordinates = () => {
+  mainPinMarker.setLatLng({
+    lat: 35.6895,
+    lng: 139.692,
+  });
+  advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${
+    mainPinMarker.getLatLng().lng
+  }`;
+};
+
+export { loadMap, addMainPinMaker, addPinMaker, resetMainPinMarkerCoordinates };

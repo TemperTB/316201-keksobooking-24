@@ -2,11 +2,9 @@ import { translateAdvertType } from './utils.js';
 
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const popupFragment = document.createDocumentFragment();
-
 /**
  * Изменяет "цена за ночь"
- * @param {Object} popupElement - карточка объявления
+ * @param {Object} element - карточка объявления
  * @param {number} price - цена
  */
 const makePopupPrice = (element, price) => {
@@ -20,10 +18,14 @@ const makePopupPrice = (element, price) => {
 /**
  * Добавляет фотографии
  * @param {Object} element - карточка объявления
- * @param {Object[]} price - массив с src к фотографиям
+ * @param {Object[]} photos - массив с src к фотографиям
  */
 const makePopupPhotos = (element, photos) => {
   const popupPhotos = element.querySelector('.popup__photos');
+  if (!photos) {
+    popupPhotos.style.display = 'none';
+    return;
+  }
   if (photos.length === 0) {
     popupPhotos.style.display = 'none';
     return;
@@ -46,6 +48,10 @@ const makePopupPhotos = (element, photos) => {
  */
 const makePopupFeatures = (element, features) => {
   const popupFeatures = element.querySelector('.popup__features');
+  if (!features) {
+    popupFeatures.style.display = 'none';
+    return;
+  }
   if (features.length === 0) {
     popupFeatures.style.display = 'none';
     return;
@@ -71,35 +77,6 @@ const checkEmptyBlock = (element) => {
       child.style.display = 'none';
     }
   });
-};
-
-/**
- * Создает карточки объявлений на основе данных с сервера
- * @param {Object[]} array - данные с сервера для создания карточек объявлений
- * @returns {Object} - карточки объявлений
- */
-const makePopupList = (array) => {
-  array.forEach(({ author, offer }) => {
-    const popupElement = popupTemplate.cloneNode(true);
-    popupElement.querySelector('.popup__title').textContent = offer.title;
-    popupElement.querySelector('.popup__text--address').textContent = offer.address;
-    popupElement.querySelector('.popup__text--address').textContent = '';
-    makePopupPrice(popupElement, offer.price);
-    popupElement.querySelector('.popup__type').textContent = translateAdvertType(offer.type);
-    popupElement.querySelector(
-      '.popup__text--capacity',
-    ).textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-    popupElement.querySelector(
-      '.popup__text--time',
-    ).textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-    makePopupFeatures(popupElement, offer.features);
-    popupElement.querySelector('.popup__description').textContent = offer.description;
-    makePopupPhotos(popupElement, offer.photos);
-    popupElement.querySelector('.popup__avatar').src = author.avatar;
-    checkEmptyBlock(popupElement);
-    popupFragment.appendChild(popupElement);
-  });
-  return popupFragment;
 };
 
 /**
@@ -129,4 +106,4 @@ const makePopup = (author, offer) => {
   return popupElement;
 };
 
-export { makePopupList, makePopup };
+export { makePopup };

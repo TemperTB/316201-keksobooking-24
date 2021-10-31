@@ -4,7 +4,7 @@ const popupTemplate = document.querySelector('#card').content.querySelector('.po
 
 /**
  * Изменяет "цена за ночь"
- * @param {Object} popupElement - карточка объявления
+ * @param {Object} element - карточка объявления
  * @param {number} price - цена
  */
 const makePopupPrice = (element, price) => {
@@ -18,7 +18,7 @@ const makePopupPrice = (element, price) => {
 /**
  * Добавляет фотографии
  * @param {Object} element - карточка объявления
- * @param {Object[]} price - массив с src к фотографиям
+ * @param {Object[]} photos - массив с src к фотографиям
  */
 const makePopupPhotos = (element, photos) => {
   const popupPhotos = element.querySelector('.popup__photos');

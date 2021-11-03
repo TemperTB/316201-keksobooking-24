@@ -16,39 +16,6 @@ const advertAddress = document.querySelector('#address');
 const pinMarkersLayer = L.layerGroup().addTo(map);
 
 /**
- * Загружает карту, активирует формы по окончанию.
- * Запрашивает у сервера похожие объявления.
- * Отрисовывает метку похожих объявлений на карту и добавляет фильтрацию.
- * @param {function activateForm} - функция активации формы
- */
-const loadMap = (activateForm) => {
-  map.addEventListener('load', () => {
-    activateForm('ad-form');
-    addMainPinMarker();
-
-    getData((data) => {
-      filterAdvert(data);
-      addFilterType(() => filterAdvert(data));
-      activateForm('map__filters');
-    });
-
-  });
-
-  map.setView(
-    {
-      lat: 35.6895,
-      lng: 139.692,
-    },
-    12,
-  );
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-};
-
-/**
  * Добавляет главный маркер на карту.
  * Создает обработчик на главный маркер.
  * При добавлении в поле "Адрес (координаты)" устанавливается значение.
@@ -112,6 +79,39 @@ const addPinMarkers = (array) => {
  */
 const deletePinMarkers = () => {
   pinMarkersLayer.clearLayers();
+};
+
+/**
+ * Загружает карту, активирует формы по окончанию.
+ * Запрашивает у сервера похожие объявления.
+ * Отрисовывает метку похожих объявлений на карту и добавляет фильтрацию.
+ * @param {function activateForm} - функция активации формы
+ */
+const loadMap = (activateForm) => {
+  map.addEventListener('load', () => {
+    activateForm('ad-form');
+    addMainPinMarker();
+
+    getData((data) => {
+      filterAdvert(data);
+      addFilterType(() => filterAdvert(data));
+      activateForm('map__filters');
+    });
+
+  });
+
+  map.setView(
+    {
+      lat: 35.6895,
+      lng: 139.692,
+    },
+    12,
+  );
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
 };
 
 /**

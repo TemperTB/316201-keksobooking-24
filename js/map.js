@@ -1,4 +1,6 @@
 import { makePopup } from './popup.js';
+import { getData } from './api.js';
+import { filterAdvert, addFilterType } from './map__filters.js';
 
 const map = L.map('map-canvas');
 const mainPinMarker = L.marker(
@@ -11,15 +13,25 @@ const mainPinMarker = L.marker(
   },
 );
 const advertAddress = document.querySelector('#address');
+const pinMarkersLayer = L.layerGroup().addTo(map);
 
 /**
- * Загружает карту, активирует формы по окончанию
+ * Загружает карту, активирует формы по окончанию.
+ * Запрашивает у сервера похожие объявления.
+ * Отрисовывает метку похожих объявлений на карту и добавляет фильтрацию.
  * @param {function activateForm} - функция активации формы
  */
 const loadMap = (activateForm) => {
   map.addEventListener('load', () => {
-    activateForm('map__filters');
     activateForm('ad-form');
+    addMainPinMarker();
+
+    getData((data) => {
+      filterAdvert(data);
+      addFilterType(() => filterAdvert(data));
+      activateForm('map__filters');
+    });
+
   });
 
   map.setView(
@@ -42,7 +54,7 @@ const loadMap = (activateForm) => {
  * При добавлении в поле "Адрес (координаты)" устанавливается значение.
  * При переносе маркера в поле "Адрес (координаты)" меняется значение.
  */
-const addMainPinMaker = () => {
+const addMainPinMarker = () => {
   const mainPinIcon = L.icon({
     iconUrl: '../img/main-pin.svg',
     iconSize: [52, 52],
@@ -69,7 +81,7 @@ const addMainPinMaker = () => {
  * Добавляет балуны при клике.
  * @param {Object[]} array - массив с данными для объявлений
  */
-const addPinMaker = (array) => {
+const addPinMarkers = (array) => {
   const pinIcon = L.icon({
     iconUrl: '../img/pin.svg',
     iconSize: [40, 40],
@@ -89,9 +101,17 @@ const addPinMaker = (array) => {
 
     const popup = makePopup(author, offer);
 
-    pinMarker.addTo(map);
+    pinMarker.addTo(pinMarkersLayer);
     pinMarker.bindPopup(popup);
   });
+
+};
+
+/**
+ * Убирает маркеры объявлений с карты
+ */
+const deletePinMarkers = () => {
+  pinMarkersLayer.clearLayers();
 };
 
 /**
@@ -107,4 +127,10 @@ const resetMainPinMarkerCoordinates = () => {
   }`;
 };
 
-export { loadMap, addMainPinMaker, addPinMaker, resetMainPinMarkerCoordinates };
+export {
+  loadMap,
+  addMainPinMarker,
+  addPinMarkers,
+  deletePinMarkers,
+  resetMainPinMarkerCoordinates
+};

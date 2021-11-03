@@ -4,11 +4,13 @@ import { filterAdvert, addFilterType } from './map__filters.js';
 import { debounce } from './debounce.js';
 
 const FILTER_DELAY = 500;
+const START_LAT = 35.6895;
+const START_LNG = 139.692;
 const map = L.map('map-canvas');
 const mainPinMarker = L.marker(
   {
-    lat: 35.6895,
-    lng: 139.692,
+    lat: START_LAT,
+    lng: START_LNG,
   },
   {
     draggable: true,
@@ -88,7 +90,7 @@ const deletePinMarkers = () => {
  * Запрашивает у сервера похожие объявления.
  * Отрисовывает метку похожих объявлений на карту и добавляет фильтрацию.
  * Фильтрация производится с задержкой
- * @param {function activateForm} - функция активации формы
+ * @param {function} activateForm - функция активации формы
  */
 const loadMap = (activateForm) => {
   map.addEventListener('load', () => {
@@ -105,8 +107,8 @@ const loadMap = (activateForm) => {
 
   map.setView(
     {
-      lat: 35.6895,
-      lng: 139.692,
+      lat: START_LAT,
+      lng: START_LNG,
     },
     12,
   );
@@ -122,8 +124,8 @@ const loadMap = (activateForm) => {
  */
 const resetMainPinMarkerCoordinates = () => {
   mainPinMarker.setLatLng({
-    lat: 35.6895,
-    lng: 139.692,
+    lat: START_LAT,
+    lng: START_LNG,
   });
   advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${
     mainPinMarker.getLatLng().lng

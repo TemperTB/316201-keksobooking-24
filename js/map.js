@@ -1,7 +1,9 @@
 import { makePopup } from './popup.js';
 import { getData } from './api.js';
 import { filterAdvert, addFilterType } from './map__filters.js';
+import { debounce } from './debounce.js';
 
+const FILTER_DELAY = 500;
 const map = L.map('map-canvas');
 const mainPinMarker = L.marker(
   {
@@ -85,6 +87,7 @@ const deletePinMarkers = () => {
  * Загружает карту, активирует формы по окончанию.
  * Запрашивает у сервера похожие объявления.
  * Отрисовывает метку похожих объявлений на карту и добавляет фильтрацию.
+ * Фильтрация производится с задержкой
  * @param {function activateForm} - функция активации формы
  */
 const loadMap = (activateForm) => {
@@ -94,7 +97,7 @@ const loadMap = (activateForm) => {
 
     getData((data) => {
       filterAdvert(data);
-      addFilterType(() => filterAdvert(data));
+      addFilterType(debounce(() => filterAdvert(data), FILTER_DELAY));
       activateForm('map__filters');
     });
 

@@ -1,5 +1,5 @@
 import { activateForm, deactivateForm } from './form.js';
-import { addAdvertFormChek, addAvatarPreview, addImagePreview, } from './ad-form.js';
+import { addAdvertFormChek, addAvatarPreview, addImagePreview } from './ad-form.js';
 import { loadMap } from './map.js';
 
 deactivateForm('ad-form');

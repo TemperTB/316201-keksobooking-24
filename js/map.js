@@ -1,40 +1,23 @@
 import { makePopup } from './popup.js';
+import { getData } from './api.js';
+import { filterAdvert, addFilterType } from './map__filters.js';
+import { debounce } from './debounce.js';
 
+const FILTER_DELAY = 500;
+const START_LAT = 35.6895;
+const START_LNG = 139.692;
 const map = L.map('map-canvas');
 const mainPinMarker = L.marker(
   {
-    lat: 35.6895,
-    lng: 139.692,
+    lat: START_LAT,
+    lng: START_LNG,
   },
   {
     draggable: true,
   },
 );
 const advertAddress = document.querySelector('#address');
-
-/**
- * Загружает карту, активирует формы по окончанию
- * @param {function activateForm} - функция активации формы
- */
-const loadMap = (activateForm) => {
-  map.addEventListener('load', () => {
-    activateForm('map__filters');
-    activateForm('ad-form');
-  });
-
-  map.setView(
-    {
-      lat: 35.6895,
-      lng: 139.692,
-    },
-    12,
-  );
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-};
+const pinMarkersLayer = L.layerGroup().addTo(map);
 
 /**
  * Добавляет главный маркер на карту.
@@ -42,7 +25,7 @@ const loadMap = (activateForm) => {
  * При добавлении в поле "Адрес (координаты)" устанавливается значение.
  * При переносе маркера в поле "Адрес (координаты)" меняется значение.
  */
-const addMainPinMaker = () => {
+const addMainPinMarker = () => {
   const mainPinIcon = L.icon({
     iconUrl: '../img/main-pin.svg',
     iconSize: [52, 52],
@@ -69,7 +52,7 @@ const addMainPinMaker = () => {
  * Добавляет балуны при клике.
  * @param {Object[]} array - массив с данными для объявлений
  */
-const addPinMaker = (array) => {
+const addPinMarkers = (array) => {
   const pinIcon = L.icon({
     iconUrl: '../img/pin.svg',
     iconSize: [40, 40],
@@ -89,9 +72,51 @@ const addPinMaker = (array) => {
 
     const popup = makePopup(author, offer);
 
-    pinMarker.addTo(map);
+    pinMarker.addTo(pinMarkersLayer);
     pinMarker.bindPopup(popup);
   });
+
+};
+
+/**
+ * Убирает маркеры объявлений с карты
+ */
+const deletePinMarkers = () => {
+  pinMarkersLayer.clearLayers();
+};
+
+/**
+ * Загружает карту, активирует формы по окончанию.
+ * Запрашивает у сервера похожие объявления.
+ * Отрисовывает метку похожих объявлений на карту и добавляет фильтрацию.
+ * Фильтрация производится с задержкой
+ * @param {function} activateForm - функция активации формы
+ */
+const loadMap = (activateForm) => {
+  map.addEventListener('load', () => {
+    activateForm('ad-form');
+    addMainPinMarker();
+
+    getData((data) => {
+      filterAdvert(data);
+      addFilterType(debounce(() => filterAdvert(data), FILTER_DELAY));
+      activateForm('map__filters');
+    });
+
+  });
+
+  map.setView(
+    {
+      lat: START_LAT,
+      lng: START_LNG,
+    },
+    12,
+  );
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
 };
 
 /**
@@ -99,12 +124,18 @@ const addPinMaker = (array) => {
  */
 const resetMainPinMarkerCoordinates = () => {
   mainPinMarker.setLatLng({
-    lat: 35.6895,
-    lng: 139.692,
+    lat: START_LAT,
+    lng: START_LNG,
   });
   advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${
     mainPinMarker.getLatLng().lng
   }`;
 };
 
-export { loadMap, addMainPinMaker, addPinMaker, resetMainPinMarkerCoordinates };
+export {
+  loadMap,
+  addMainPinMarker,
+  addPinMarkers,
+  deletePinMarkers,
+  resetMainPinMarkerCoordinates
+};

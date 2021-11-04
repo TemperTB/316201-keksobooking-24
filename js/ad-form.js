@@ -15,6 +15,7 @@ const COLOR_MODEL = '#d9d9d3';
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 /**
  * value {string} - количество комнат
  * valuesGuests {Object[]} - значения, которые могут быть выбраны в списке "Количество мест"
@@ -326,4 +327,45 @@ const addAdvertFormChek = () => {
   addAdvertFormSubmit();
 };
 
-export { addAdvertFormChek };
+/**
+ * Добавляет предпоказ аватарки пользователя
+ */
+const addAvatarPreview = () => {
+  const fileChooser = document.querySelector('#avatar');
+  const preview = document.querySelector('.ad-form-header__preview').querySelector('img');
+
+  fileChooser.addEventListener('change', () => {
+    const file = fileChooser.files[0];
+    const fileName = file.name.toLowerCase();
+
+    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+    if (matches) {
+      preview.src = URL.createObjectURL(file);
+    }
+  });
+};
+
+/**
+ * Добавляет предпоказ фотографии объявления
+ */
+const addImagePreview = () => {
+  const fileChooser = document.querySelector('#images');
+  const preview = document.querySelector('.ad-form__photo');
+
+  fileChooser.addEventListener('change', () => {
+    const file = fileChooser.files[0];
+    const fileName = file.name.toLowerCase();
+
+    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+    if (matches) {
+      preview.style.background = `url('${URL.createObjectURL(file)}')`;
+      preview.style.backgroundSize = 'contain';
+      preview.style.backgroundRepeat = 'no-repeat';
+      preview.style.backgroundPosition = '50% 50%';
+    }
+  });
+};
+
+export { addAdvertFormChek, addAvatarPreview, addImagePreview };

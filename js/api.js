@@ -1,4 +1,4 @@
-import {showSucessMessageToUser, showErrorMessageToUser} from './utils.js';
+import { showSucessMessageToUser, showErrorMessageToUser } from './utils.js';
 /**
  * Получение данных от сервера
  * @param {function} onSucess - действие с данными при их успешном получении (json)
@@ -8,7 +8,8 @@ const getData = (onSuccess) => {
     .then((response) => response.json())
     .then((data) => {
       onSuccess(data);
-    });
+    })
+    .catch(() => showErrorMessageToUser('get-error'));
 };
 
 /**
@@ -30,9 +31,8 @@ const sendData = (body, resetForm) => {
       }
     })
     .catch(() => {
-      showErrorMessageToUser();
+      showErrorMessageToUser('error');
     });
 };
 
 export { getData, sendData };
-

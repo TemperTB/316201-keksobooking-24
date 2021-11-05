@@ -31,7 +31,6 @@ const filterFeatures = filterForm.querySelectorAll('.map__checkbox');
  * @returns {boolean}
  */
 const filterConfig = ({ offer }) => {
-
   let isApproach = true;
 
   if (filterType.value !== DEFAULT_SETTING && offer.type !== filterType.value) {
@@ -58,16 +57,11 @@ const filterConfig = ({ offer }) => {
       break;
   }
 
-  if (
-    filterRoom.value !== DEFAULT_SETTING &&
-    offer.rooms.toString() !== filterRoom.value
-  ) {
+  if (filterRoom.value !== DEFAULT_SETTING && offer.rooms.toString() !== filterRoom.value) {
     isApproach = false;
   }
 
-  if (
-    filterGuest.value === '0' && offer.guests < 4
-  ) {
+  if (filterGuest.value === '0' && offer.guests < 4) {
     isApproach = false;
   } else if (
     filterGuest.value !== DEFAULT_SETTING &&
@@ -104,7 +98,7 @@ const filterAdvert = (data) => {
  * Добавляет обработчики для фильтрации объявлений на карте.
  * @param {function} cb - функция для фильтрации данных
  */
-const addFilterType = (cb) => {
+const onFilterChange = (cb) => {
   filterType.addEventListener('change', () => {
     cb();
   });
@@ -122,4 +116,4 @@ const addFilterType = (cb) => {
   });
 };
 
-export { filterAdvert, addFilterType };
+export { filterAdvert, onFilterChange };

@@ -1,6 +1,6 @@
 import { makePopup } from './popup.js';
 import { getData } from './api.js';
-import { filterAdvert, addFilterType } from './map__filters.js';
+import { filterAdvert, onFilterChange } from './map-filters.js';
 import { debounce } from './debounce.js';
 
 const FILTER_DELAY = 500;
@@ -34,9 +34,7 @@ const addMainPinMarker = () => {
 
   mainPinMarker.setIcon(mainPinIcon);
 
-  advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${
-    mainPinMarker.getLatLng().lng
-  }`;
+  advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${mainPinMarker.getLatLng().lng}`;
 
   mainPinMarker.addEventListener('moveend', (evt) => {
     const markerLat = evt.target.getLatLng().lat.toFixed(5);
@@ -75,7 +73,6 @@ const addPinMarkers = (array) => {
     pinMarker.addTo(pinMarkersLayer);
     pinMarker.bindPopup(popup);
   });
-
 };
 
 /**
@@ -89,7 +86,7 @@ const deletePinMarkers = () => {
  * Загружает карту, активирует формы по окончанию.
  * Запрашивает у сервера похожие объявления.
  * Отрисовывает метку похожих объявлений на карту и добавляет фильтрацию.
- * Фильтрация производится с задержкой
+ * Фильтрация производится с задержкой.
  * @param {function} activateForm - функция активации формы
  */
 const loadMap = (activateForm) => {
@@ -99,10 +96,9 @@ const loadMap = (activateForm) => {
 
     getData((data) => {
       filterAdvert(data);
-      addFilterType(debounce(() => filterAdvert(data), FILTER_DELAY));
+      onFilterChange(debounce(() => filterAdvert(data), FILTER_DELAY));
       activateForm('map__filters');
     });
-
   });
 
   map.setView(
@@ -114,8 +110,7 @@ const loadMap = (activateForm) => {
   );
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 };
 
@@ -127,15 +122,8 @@ const resetMainPinMarkerCoordinates = () => {
     lat: START_LAT,
     lng: START_LNG,
   });
-  advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${
-    mainPinMarker.getLatLng().lng
-  }`;
+  advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${mainPinMarker.getLatLng().lng}`;
+  map.closePopup();
 };
 
-export {
-  loadMap,
-  addMainPinMarker,
-  addPinMarkers,
-  deletePinMarkers,
-  resetMainPinMarkerCoordinates
-};
+export { loadMap, addMainPinMarker, addPinMarkers, deletePinMarkers, resetMainPinMarkerCoordinates };

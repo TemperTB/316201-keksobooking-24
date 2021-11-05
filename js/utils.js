@@ -75,17 +75,14 @@ const hideCapacityOption = (options, values) => {
  */
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-
 /**
  * Показывает пользователю сообщение об успешной отправке.
  */
 const showSucessMessageToUser = () => {
-  const messageTemplate = document
-    .querySelector('#success')
-    .content.querySelector('.success');
+  const messageTemplate = document.querySelector('#success').content.querySelector('.success');
   const messageToUser = messageTemplate.cloneNode(true);
-  const footer = document.querySelector('footer');
-  footer.after(messageToUser);
+  const body = document.querySelector('body');
+  body.appendChild(messageToUser);
 
   /**
    * Добавляет обработчик закрытия окна
@@ -99,7 +96,7 @@ const showSucessMessageToUser = () => {
    * Удаляет элемент и обработчики закрытия окна
    * @param {Object} element - элемент для удаления
    */
-  const removeElement = (element) => {
+  const removeEventForCloseWindow = (element) => {
     element.remove();
     document.removeEventListener('click', onMessageClick);
     document.removeEventListener('keydown', onMessageEscKeydown);
@@ -109,7 +106,7 @@ const showSucessMessageToUser = () => {
    * Действие при клике мышкой
    */
   function onMessageClick() {
-    removeElement(messageToUser);
+    removeEventForCloseWindow(messageToUser);
   }
 
   /**
@@ -118,7 +115,7 @@ const showSucessMessageToUser = () => {
   function onMessageEscKeydown(evt) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      removeElement(messageToUser);
+      removeEventForCloseWindow(messageToUser);
     }
   }
 
@@ -127,15 +124,14 @@ const showSucessMessageToUser = () => {
 
 /**
  * Показывает пользователю сообщение о неудачной отправке.
+ * @param {string} index - id template в разметке
  */
-const showErrorMessageToUser = () => {
-  const messageTemplate = document
-    .querySelector('#error')
-    .content.querySelector('.error');
+const showErrorMessageToUser = (index) => {
+  const messageTemplate = document.querySelector(`#${index}`).content.querySelector('.error');
   const messageToUser = messageTemplate.cloneNode(true);
-  const footer = document.querySelector('footer');
-  footer.after(messageToUser);
-  const tryAgainButton = document.querySelector('.error__button');
+  const body = document.querySelector('body');
+  body.appendChild(messageToUser);
+  const tryAgainButton = messageToUser.querySelector('.error__button');
 
   /**
    * Добавляет обработчик закрытия окна
@@ -149,7 +145,7 @@ const showErrorMessageToUser = () => {
    * Удаляет элемент и обработчики закрытия окна
    * @param {Object} element - элемент для удаления
    */
-  const removeElement = (element) => {
+  const removeEventForCloseWindow = (element) => {
     element.remove();
     tryAgainButton.removeEventListener('click', onMessageClick);
     document.removeEventListener('keydown', onMessageEscKeydown);
@@ -159,7 +155,7 @@ const showErrorMessageToUser = () => {
    * Действие при клике мышкой
    */
   function onMessageClick() {
-    removeElement(messageToUser);
+    removeEventForCloseWindow(messageToUser);
   }
 
   /**
@@ -168,7 +164,7 @@ const showErrorMessageToUser = () => {
   function onMessageEscKeydown(evt) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      removeElement(messageToUser);
+      removeEventForCloseWindow(messageToUser);
     }
   }
 

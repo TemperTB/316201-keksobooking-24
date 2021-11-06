@@ -45,44 +45,44 @@ const Types = {
   PALACE: ['palace', 10000],
 };
 
-const advertForm = document.querySelector('.ad-form');
-const advertFormSubmit = advertForm.querySelector('.ad-form__submit');
-const advertFormReset = advertForm.querySelector('.ad-form__reset');
-const advertTitle = advertForm.querySelector('#title');
-const advertAddress = advertForm.querySelector('#address');
-const advertType = advertForm.querySelector('#type');
-const advertPrice = advertForm.querySelector('#price');
-const advertTimeIn = advertForm.querySelector('#timein');
-const advertTimeOut = advertForm.querySelector('#timeout');
-const advertRoomNumber = advertForm.querySelector('#room_number');
-const advertCapacity = advertForm.querySelector('#capacity');
-const advertCapacityOptions = advertCapacity.querySelectorAll('option');
-const advertFeatureCheckboxes = advertForm.querySelectorAll('.features__checkbox');
-const advertDescription = advertForm.querySelector('#description');
+const advertFormContainer = document.querySelector('.ad-form');
+const advertFormSubmitContainer = advertFormContainer.querySelector('.ad-form__submit');
+const advertFormResetContainer = advertFormContainer.querySelector('.ad-form__reset');
+const advertTitleContainer = advertFormContainer.querySelector('#title');
+const advertAddressContainer = advertFormContainer.querySelector('#address');
+const advertTypeContainer = advertFormContainer.querySelector('#type');
+const advertPriceContainer = advertFormContainer.querySelector('#price');
+const advertTimeInContainer = advertFormContainer.querySelector('#timein');
+const advertTimeOutContainer = advertFormContainer.querySelector('#timeout');
+const advertRoomNumberContainer = advertFormContainer.querySelector('#room_number');
+const advertCapacityContainer = advertFormContainer.querySelector('#capacity');
+const advertCapacityOptionsContainers = advertCapacityContainer.querySelectorAll('option');
+const advertFeatureCheckboxesContainers = advertFormContainer.querySelectorAll('.features__checkbox');
+const advertDescriptionContainer = advertFormContainer.querySelector('#description');
 
 /**
  * Очистка формы, перенос главной метки на карте в стандартное положение
  */
 const resetAdvertForm = () => {
-  advertTitle.value = '';
-  advertType.value = Types.FLAT[0];
-  advertPrice.value = '';
-  advertTimeIn.value = '12:00';
-  advertTimeOut.value = '12:00';
-  advertRoomNumber.value = Rooms.ONE_ROOM.value;
-  advertCapacity.value = Rooms.ONE_ROOM.valuesGuests;
-  hideCapacityOption(advertCapacityOptions, Rooms.ONE_ROOM.valuesGuests);
-  advertDescription.value = '';
-  advertFeatureCheckboxes.forEach((checkbox) => {
+  advertTitleContainer.value = '';
+  advertTypeContainer.value = Types.FLAT[0];
+  advertPriceContainer.value = '';
+  advertTimeInContainer.value = '12:00';
+  advertTimeOutContainer.value = '12:00';
+  advertRoomNumberContainer.value = Rooms.ONE_ROOM.value;
+  advertCapacityContainer.value = Rooms.ONE_ROOM.valuesGuests;
+  hideCapacityOption(advertCapacityOptionsContainers, Rooms.ONE_ROOM.valuesGuests);
+  advertDescriptionContainer.value = '';
+  advertFeatureCheckboxesContainers.forEach((checkbox) => {
     if (checkbox.checked) {
       checkbox.checked = false;
     }
   });
 
   resetMainPinMarkerCoordinates();
-  changeBorderColor(advertTitle, COLOR_MODEL);
-  changeBorderColor(advertPrice, COLOR_MODEL);
-  changeBorderColor(advertCapacity, COLOR_MODEL);
+  changeBorderColor(advertTitleContainer, COLOR_MODEL);
+  changeBorderColor(advertPriceContainer, COLOR_MODEL);
+  changeBorderColor(advertCapacityContainer, COLOR_MODEL);
 };
 
 /**
@@ -93,19 +93,19 @@ const addAdvertFormChek = () => {
    * Добавляет обработчик ввода "заголовок объявления". При input происходит проверка на валидность
    */
   const onAdvertTypeInput = () => {
-    advertTitle.addEventListener('input', () => {
-      advertTitle.setCustomValidity(' ');
-      const valueLength = advertTitle.value.length;
-      removeErrorBlock(advertTitle);
+    advertTitleContainer.addEventListener('input', () => {
+      advertTitleContainer.setCustomValidity(' ');
+      const valueLength = advertTitleContainer.value.length;
+      removeErrorBlock(advertTitleContainer);
       if (valueLength < MIN_TITLE_LENGTH) {
-        addErrorBlock(advertTitle, `Мин. длина заголовка - ${MIN_TITLE_LENGTH} симв.`);
+        addErrorBlock(advertTitleContainer, `Мин. длина заголовка - ${MIN_TITLE_LENGTH} симв.`);
       } else if (valueLength > MAX_TITLE_LENGTH) {
-        addErrorBlock(advertTitle, `Макс. длина заголовка - ${MAX_TITLE_LENGTH} симв.`);
+        addErrorBlock(advertTitleContainer, `Макс. длина заголовка - ${MAX_TITLE_LENGTH} симв.`);
       } else {
-        advertTitle.setCustomValidity('');
-        changeBorderColor(advertTitle, COLOR_MODEL);
+        advertTitleContainer.setCustomValidity('');
+        changeBorderColor(advertTitleContainer, COLOR_MODEL);
       }
-      advertTitle.reportValidity();
+      advertTitleContainer.reportValidity();
     });
   };
 
@@ -145,27 +145,27 @@ const addAdvertFormChek = () => {
    * При изменении "тип жилья", меняется min "цена за ночь" и сразу проверяется
    */
   const onAdvertTypeChange = () => {
-    advertType.addEventListener('change', () => {
-      switch (advertType.value) {
+    advertTypeContainer.addEventListener('change', () => {
+      switch (advertTypeContainer.value) {
         case Types.BUNGALOW[0]:
-          changeAdvertMinPrice(advertPrice, Types.BUNGALOW[1]);
-          checkAdvertPrice(advertPrice, Types.BUNGALOW[1], MAX_PRICE);
+          changeAdvertMinPrice(advertPriceContainer, Types.BUNGALOW[1]);
+          checkAdvertPrice(advertPriceContainer, Types.BUNGALOW[1], MAX_PRICE);
           break;
         case Types.FLAT[0]:
-          changeAdvertMinPrice(advertPrice, Types.FLAT[1]);
-          checkAdvertPrice(advertPrice, Types.FLAT[1], MAX_PRICE);
+          changeAdvertMinPrice(advertPriceContainer, Types.FLAT[1]);
+          checkAdvertPrice(advertPriceContainer, Types.FLAT[1], MAX_PRICE);
           break;
         case Types.HOUSE[0]:
-          changeAdvertMinPrice(advertPrice, Types.HOUSE[1]);
-          checkAdvertPrice(advertPrice, Types.HOUSE[1], MAX_PRICE);
+          changeAdvertMinPrice(advertPriceContainer, Types.HOUSE[1]);
+          checkAdvertPrice(advertPriceContainer, Types.HOUSE[1], MAX_PRICE);
           break;
         case Types.PALACE[0]:
-          changeAdvertMinPrice(advertPrice, Types.PALACE[1]);
-          checkAdvertPrice(advertPrice, Types.PALACE[1], MAX_PRICE);
+          changeAdvertMinPrice(advertPriceContainer, Types.PALACE[1]);
+          checkAdvertPrice(advertPriceContainer, Types.PALACE[1], MAX_PRICE);
           break;
         case Types.HOTEL[0]:
-          changeAdvertMinPrice(advertPrice, Types.HOTEL[1]);
-          checkAdvertPrice(advertPrice, Types.HOTEL[1], MAX_PRICE);
+          changeAdvertMinPrice(advertPriceContainer, Types.HOTEL[1]);
+          checkAdvertPrice(advertPriceContainer, Types.HOTEL[1], MAX_PRICE);
           break;
       }
     });
@@ -176,10 +176,10 @@ const addAdvertFormChek = () => {
    * При изменении "цена за ночь", происходит проверка на валидность
    */
   const onAdvertPriceInput = () => {
-    advertPrice.addEventListener('input', () => {
-      advertPrice.setCustomValidity(' ');
-      checkAdvertPrice(advertPrice, +advertPrice.getAttribute('min'), MAX_PRICE);
-      advertPrice.reportValidity();
+    advertPriceContainer.addEventListener('input', () => {
+      advertPriceContainer.setCustomValidity(' ');
+      checkAdvertPrice(advertPriceContainer, +advertPriceContainer.getAttribute('min'), MAX_PRICE);
+      advertPriceContainer.reportValidity();
     });
   };
 
@@ -189,12 +189,12 @@ const addAdvertFormChek = () => {
    * И наоборот, при изменении "время выезда" - меняется "время заезда".
    */
   const onAdvertTimeChange = () => {
-    advertTimeIn.addEventListener('change', () => {
-      advertTimeOut.value = advertTimeIn.value;
+    advertTimeInContainer.addEventListener('change', () => {
+      advertTimeOutContainer.value = advertTimeInContainer.value;
     });
 
-    advertTimeOut.addEventListener('change', () => {
-      advertTimeIn.value = advertTimeOut.value;
+    advertTimeOutContainer.addEventListener('change', () => {
+      advertTimeInContainer.value = advertTimeOutContainer.value;
     });
   };
 
@@ -203,32 +203,32 @@ const addAdvertFormChek = () => {
    * При выборе "количество комнат", ограничивается выбор "количество мест"
    */
   const onAdvertRoomNumberChange = () => {
-    advertRoomNumber.addEventListener('change', () => {
-      switch (advertRoomNumber.value) {
+    advertRoomNumberContainer.addEventListener('change', () => {
+      switch (advertRoomNumberContainer.value) {
         case Rooms.ONE_ROOM.value:
-          hideCapacityOption(advertCapacityOptions, Rooms.ONE_ROOM.valuesGuests);
+          hideCapacityOption(advertCapacityOptionsContainers, Rooms.ONE_ROOM.valuesGuests);
           break;
         case Rooms.TWO_ROOMS.value:
-          hideCapacityOption(advertCapacityOptions, Rooms.TWO_ROOMS.valuesGuests);
+          hideCapacityOption(advertCapacityOptionsContainers, Rooms.TWO_ROOMS.valuesGuests);
           break;
         case Rooms.THREE_ROOMS.value:
-          hideCapacityOption(advertCapacityOptions, Rooms.THREE_ROOMS.valuesGuests);
+          hideCapacityOption(advertCapacityOptionsContainers, Rooms.THREE_ROOMS.valuesGuests);
           break;
         case Rooms.ONE_HUNDRED_ROOMS.value:
-          hideCapacityOption(advertCapacityOptions, Rooms.ONE_HUNDRED_ROOMS.valuesGuests);
+          hideCapacityOption(advertCapacityOptionsContainers, Rooms.ONE_HUNDRED_ROOMS.valuesGuests);
           break;
       }
 
-      const selectedCapacity = advertCapacity.selectedIndex;
-      removeErrorBlock(advertCapacity);
-      if (advertCapacityOptions[selectedCapacity].hasAttribute('disabled')) {
-        addErrorBlock(advertCapacity, 'Выберите другое');
+      const selectedCapacity = advertCapacityContainer.selectedIndex;
+      removeErrorBlock(advertCapacityContainer);
+      if (advertCapacityOptionsContainers[selectedCapacity].hasAttribute('disabled')) {
+        addErrorBlock(advertCapacityContainer, 'Выберите другое');
       }
     });
 
-    advertCapacity.addEventListener('change', () => {
-      removeErrorBlock(advertCapacity);
-      changeBorderColor(advertCapacity, COLOR_MODEL);
+    advertCapacityContainer.addEventListener('change', () => {
+      removeErrorBlock(advertCapacityContainer);
+      changeBorderColor(advertCapacityContainer, COLOR_MODEL);
     });
   };
 
@@ -238,22 +238,22 @@ const addAdvertFormChek = () => {
    * У полей не прошедших валидацию рамка становится красной.
    */
   const onAdvertFormSubmitClick = () => {
-    advertFormSubmit.addEventListener('click', (evt) => {
+    advertFormSubmitContainer.addEventListener('click', (evt) => {
       let hasError = false;
 
-      if (!advertTitle.validity.valid) {
-        changeBorderColor(advertTitle, COLOR_RED);
+      if (!advertTitleContainer.validity.valid) {
+        changeBorderColor(advertTitleContainer, COLOR_RED);
         hasError = true;
       }
 
-      if (!advertPrice.validity.valid) {
-        changeBorderColor(advertPrice, COLOR_RED);
+      if (!advertPriceContainer.validity.valid) {
+        changeBorderColor(advertPriceContainer, COLOR_RED);
         hasError = true;
       }
 
-      const selectedCapacity = advertCapacity.selectedIndex;
-      if (advertCapacityOptions[selectedCapacity].hasAttribute('disabled')) {
-        changeBorderColor(advertCapacity, COLOR_RED);
+      const selectedCapacity = advertCapacityContainer.selectedIndex;
+      if (advertCapacityOptionsContainers[selectedCapacity].hasAttribute('disabled')) {
+        changeBorderColor(advertCapacityContainer, COLOR_RED);
         hasError = true;
       }
 
@@ -267,29 +267,29 @@ const addAdvertFormChek = () => {
    * Добавляется обработчик нажатия кнопки 'Очистить'
    */
   const onFormResetClick = () => {
-    advertFormReset.addEventListener('click', (evt) => {
+    advertFormResetContainer.addEventListener('click', (evt) => {
       evt.preventDefault();
       resetAdvertForm();
-      removeErrorBlock(advertTitle);
-      removeErrorBlock(advertPrice);
-      removeErrorBlock(advertCapacity);
+      removeErrorBlock(advertTitleContainer);
+      removeErrorBlock(advertPriceContainer);
+      removeErrorBlock(advertCapacityContainer);
     });
   };
 
   /**
    * Добавляет обработчик отправки формы.
    */
-  const OnFormSubmit = () => {
-    advertForm.addEventListener('submit', (evt) => {
-      advertAddress.disabled = false;
+  const onFormSubmit = () => {
+    advertFormContainer.addEventListener('submit', (evt) => {
+      advertAddressContainer.disabled = false;
       evt.preventDefault();
       sendData(new FormData(evt.target), resetAdvertForm);
-      advertAddress.disabled = true;
+      advertAddressContainer.disabled = true;
     });
   };
 
-  changeAdvertMinPrice(advertPrice, Types.FLAT[1]); //сразу выставляем минимальную цену на жилье
-  hideCapacityOption(advertCapacityOptions, Rooms.ONE_ROOM.valuesGuests); //сразу ограничиваем выбор количества гостей для 'квартиры'
+  changeAdvertMinPrice(advertPriceContainer, Types.FLAT[1]); //сразу выставляем минимальную цену на жилье
+  hideCapacityOption(advertCapacityOptionsContainers, Rooms.ONE_ROOM.valuesGuests); //сразу ограничиваем выбор количества гостей для 'квартиры'
   onAdvertTypeInput();
   onAdvertTypeChange();
   onAdvertPriceInput();
@@ -297,24 +297,24 @@ const addAdvertFormChek = () => {
   onAdvertRoomNumberChange();
   onFormResetClick();
   onAdvertFormSubmitClick();
-  OnFormSubmit();
+  onFormSubmit();
 };
 
 /**
  * Добавляет предпоказ аватарки пользователя
  */
-const addAvatarPreview = () => {
-  const fileChooser = document.querySelector('#avatar');
-  const preview = document.querySelector('.ad-form-header__preview').querySelector('img');
+const addAvatarPreviewContainer = () => {
+  const fileChooserContainer = document.querySelector('#avatar');
+  const previewContainer = document.querySelector('.ad-form-header__previewContainer').querySelector('img');
 
-  fileChooser.addEventListener('change', () => {
-    const file = fileChooser.files[0];
+  fileChooserContainer.addEventListener('change', () => {
+    const file = fileChooserContainer.files[0];
     const fileName = file.name.toLowerCase();
 
     const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
     if (matches) {
-      preview.src = URL.createObjectURL(file);
+      previewContainer.src = URL.createObjectURL(file);
     }
   });
 };
@@ -322,23 +322,23 @@ const addAvatarPreview = () => {
 /**
  * Добавляет предпоказ фотографии объявления
  */
-const addImagePreview = () => {
-  const fileChooser = document.querySelector('#images');
-  const preview = document.querySelector('.ad-form__photo');
+const addImagePreviewContainer = () => {
+  const fileChooserContainer = document.querySelector('#images');
+  const previewContainer = document.querySelector('.ad-form__photo');
 
-  fileChooser.addEventListener('change', () => {
-    const file = fileChooser.files[0];
+  fileChooserContainer.addEventListener('change', () => {
+    const file = fileChooserContainer.files[0];
     const fileName = file.name.toLowerCase();
 
     const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
     if (matches) {
-      preview.style.background = `url('${URL.createObjectURL(file)}')`;
-      preview.style.backgroundSize = 'contain';
-      preview.style.backgroundRepeat = 'no-repeat';
-      preview.style.backgroundPosition = '50% 50%';
+      previewContainer.style.background = `url('${URL.createObjectURL(file)}')`;
+      previewContainer.style.backgroundSize = 'contain';
+      previewContainer.style.backgroundRepeat = 'no-repeat';
+      previewContainer.style.backgroundPosition = '50% 50%';
     }
   });
 };
 
-export { addAdvertFormChek, addAvatarPreview, addImagePreview };
+export { addAdvertFormChek, addAvatarPreviewContainer, addImagePreviewContainer };

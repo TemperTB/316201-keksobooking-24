@@ -79,10 +79,10 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
  * Показывает пользователю сообщение об успешной отправке.
  */
 const showSuccessMessageToUser = () => {
-  const messageTemplate = document.querySelector('#success').content.querySelector('.success');
-  const messageToUser = messageTemplate.cloneNode(true);
-  const body = document.querySelector('body');
-  body.appendChild(messageToUser);
+  const messageTemplateContainer = document.querySelector('#success').content.querySelector('.success');
+  const messageToUser = messageTemplateContainer.cloneNode(true);
+  const bodyContainer = document.querySelector('body');
+  bodyContainer.appendChild(messageToUser);
 
   /**
    * Добавляет обработчик закрытия окна
@@ -127,17 +127,17 @@ const showSuccessMessageToUser = () => {
  * @param {string} index - id template в разметке
  */
 const showErrorMessageToUser = (index) => {
-  const messageTemplate = document.querySelector(`#${index}`).content.querySelector('.error');
-  const messageToUser = messageTemplate.cloneNode(true);
-  const body = document.querySelector('body');
-  body.appendChild(messageToUser);
-  const tryAgainButton = messageToUser.querySelector('.error__button');
+  const messageTemplateContainer = document.querySelector(`#${index}`).content.querySelector('.error');
+  const messageToUser = messageTemplateContainer.cloneNode(true);
+  const bodyContainer = document.querySelector('body');
+  bodyContainer.appendChild(messageToUser);
+  const tryAgainButtonContainer = messageToUser.querySelector('.error__button');
 
   /**
    * Добавляет обработчик закрытия окна
    */
   const addEventForCloseWindow = () => {
-    tryAgainButton.addEventListener('click', onMessageClick);
+    tryAgainButtonContainer.addEventListener('click', onMessageClick);
     document.addEventListener('keydown', onMessageEscKeydown);
   };
 
@@ -147,7 +147,7 @@ const showErrorMessageToUser = (index) => {
    */
   const removeEventForCloseWindow = (element) => {
     element.remove();
-    tryAgainButton.removeEventListener('click', onMessageClick);
+    tryAgainButtonContainer.removeEventListener('click', onMessageClick);
     document.removeEventListener('keydown', onMessageEscKeydown);
   };
 

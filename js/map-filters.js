@@ -2,6 +2,7 @@ import { addPinMarkers, deletePinMarkers } from './map.js';
 
 const COUNT_ADVERTS = 10;
 const DEFAULT_SETTING = 'any';
+const MAX_COUNT_GUESTS = 3;
 const Price = {
   LOW: {
     min: 0,
@@ -17,13 +18,13 @@ const Price = {
   },
 };
 
-const filterForm = document.querySelector('.map__filters');
-const filterType = filterForm.querySelector('#housing-type');
-const filterPrice = filterForm.querySelector('#housing-price');
-const filterRoom = filterForm.querySelector('#housing-rooms');
-const filterGuest = filterForm.querySelector('#housing-guests');
-const filterFeature = filterForm.querySelector('.map__features');
-const filterFeatures = filterForm.querySelectorAll('.map__checkbox');
+const filterFormContainer = document.querySelector('.map__filters');
+const filterTypeContainer = filterFormContainer.querySelector('#housing-type');
+const filterPriceContainer = filterFormContainer.querySelector('#housing-price');
+const filterRoomContainer = filterFormContainer.querySelector('#housing-rooms');
+const filterGuestContainer = filterFormContainer.querySelector('#housing-guests');
+const filterFeatureContainer = filterFormContainer.querySelector('.map__features');
+const filterFeaturesContainers = filterFormContainer.querySelectorAll('.map__checkbox');
 
 /**
  * Фильтрует массив данных сервера по текущим выбранным фильтрам
@@ -33,11 +34,11 @@ const filterFeatures = filterForm.querySelectorAll('.map__checkbox');
 const filterConfig = ({ offer }) => {
   let isApproach = true;
 
-  if (filterType.value !== DEFAULT_SETTING && offer.type !== filterType.value) {
+  if (filterTypeContainer.value !== DEFAULT_SETTING && offer.type !== filterTypeContainer.value) {
     isApproach = false;
   }
 
-  switch (filterPrice.value) {
+  switch (filterPriceContainer.value) {
     case 'any':
       break;
     case 'low':
@@ -57,21 +58,21 @@ const filterConfig = ({ offer }) => {
       break;
   }
 
-  if (filterRoom.value !== DEFAULT_SETTING && offer.rooms.toString() !== filterRoom.value) {
+  if (filterRoomContainer.value !== DEFAULT_SETTING && offer.rooms.toString() !== filterRoomContainer.value) {
     isApproach = false;
   }
 
-  if (filterGuest.value === '0' && offer.guests < 4) {
+  if (filterGuestContainer.value === '0' && offer.guests <= MAX_COUNT_GUESTS) {
     isApproach = false;
   } else if (
-    filterGuest.value !== DEFAULT_SETTING &&
-    filterGuest.value !== '0' &&
-    offer.guests.toString() !== filterGuest.value
+    filterGuestContainer.value !== DEFAULT_SETTING &&
+    filterGuestContainer.value !== '0' &&
+    offer.guests.toString() !== filterGuestContainer.value
   ) {
     isApproach = false;
   }
 
-  filterFeatures.forEach((element) => {
+  filterFeaturesContainers.forEach((element) => {
     if (element.checked) {
       if (typeof offer['features'] === 'undefined') {
         isApproach = false;
@@ -99,19 +100,19 @@ const filterAdvert = (data) => {
  * @param {function} cb - функция для фильтрации данных
  */
 const onFilterChange = (cb) => {
-  filterType.addEventListener('change', () => {
+  filterTypeContainer.addEventListener('change', () => {
     cb();
   });
-  filterPrice.addEventListener('change', () => {
+  filterPriceContainer.addEventListener('change', () => {
     cb();
   });
-  filterRoom.addEventListener('change', () => {
+  filterRoomContainer.addEventListener('change', () => {
     cb();
   });
-  filterGuest.addEventListener('change', () => {
+  filterGuestContainer.addEventListener('change', () => {
     cb();
   });
-  filterFeature.addEventListener('change', () => {
+  filterFeatureContainer.addEventListener('change', () => {
     cb();
   });
 };

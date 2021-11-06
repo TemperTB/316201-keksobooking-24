@@ -16,7 +16,7 @@ const mainPinMarker = L.marker(
     draggable: true,
   },
 );
-const advertAddress = document.querySelector('#address');
+const advertAddressContainer = document.querySelector('#address');
 const pinMarkersLayer = L.layerGroup().addTo(map);
 
 /**
@@ -34,12 +34,12 @@ const addMainPinMarker = () => {
 
   mainPinMarker.setIcon(mainPinIcon);
 
-  advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${mainPinMarker.getLatLng().lng}`;
+  advertAddressContainer.value = `${mainPinMarker.getLatLng().lat}, ${mainPinMarker.getLatLng().lng}`;
 
   mainPinMarker.addEventListener('moveend', (evt) => {
     const markerLat = evt.target.getLatLng().lat.toFixed(5);
     const markerLng = evt.target.getLatLng().lng.toFixed(5);
-    advertAddress.value = `${markerLat}, ${markerLng}`;
+    advertAddressContainer.value = `${markerLat}, ${markerLng}`;
   });
 
   mainPinMarker.addTo(map);
@@ -122,7 +122,7 @@ const resetMainPinMarkerCoordinates = () => {
     lat: START_LAT,
     lng: START_LNG,
   });
-  advertAddress.value = `${mainPinMarker.getLatLng().lat}, ${mainPinMarker.getLatLng().lng}`;
+  advertAddressContainer.value = `${mainPinMarker.getLatLng().lat}, ${mainPinMarker.getLatLng().lng}`;
   map.closePopup();
 };
 

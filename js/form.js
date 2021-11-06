@@ -3,10 +3,10 @@
  * @param {string} formClass - class формы из разметки
  */
 const deactivateForm = (formClass) => {
-  const form = document.querySelector(`.${formClass}`);
-  const formElements = form.querySelectorAll('fieldset');
-  form.classList.add(`${formClass}--disabled`);
-  formElements.forEach((formElement) => {
+  const formContainer = document.querySelector(`.${formClass}`);
+  const formElementsContainers = formContainer.querySelectorAll('fieldset');
+  formContainer.classList.add(`${formClass}--disabled`);
+  formElementsContainers.forEach((formElement) => {
     formElement.setAttribute('disabled', 'disabled');
   });
 };
@@ -16,10 +16,10 @@ const deactivateForm = (formClass) => {
  * @param {string} formClass - class формы из разметки
  */
 const activateForm = (formClass) => {
-  const form = document.querySelector(`.${formClass}`);
-  const formElements = form.querySelectorAll('fieldset');
-  form.classList.remove(`${formClass}--disabled`);
-  formElements.forEach((formElement) => {
+  const formContainer = document.querySelector(`.${formClass}`);
+  const formElementsContainers = formContainer.querySelectorAll('fieldset');
+  formContainer.classList.remove(`${formClass}--disabled`);
+  formElementsContainers.forEach((formElement) => {
     formElement.removeAttribute('disabled');
   });
 };

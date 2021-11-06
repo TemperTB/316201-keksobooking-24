@@ -78,7 +78,7 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 /**
  * Показывает пользователю сообщение об успешной отправке.
  */
-const showSucessMessageToUser = () => {
+const showSuccessMessageToUser = () => {
   const messageTemplate = document.querySelector('#success').content.querySelector('.success');
   const messageToUser = messageTemplate.cloneNode(true);
   const body = document.querySelector('body');
@@ -177,6 +177,6 @@ export {
   removeErrorBlock,
   changeBorderColor,
   hideCapacityOption,
-  showSucessMessageToUser,
+  showSuccessMessageToUser,
   showErrorMessageToUser
 };

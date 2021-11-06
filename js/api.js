@@ -1,4 +1,4 @@
-import { showSucessMessageToUser, showErrorMessageToUser } from './utils.js';
+import { showSuccessMessageToUser, showErrorMessageToUser } from './utils.js';
 /**
  * Получение данных от сервера
  * @param {function} onSucess - действие с данными при их успешном получении (json)
@@ -24,7 +24,7 @@ const sendData = (body, resetForm) => {
   })
     .then((response) => {
       if (response.ok) {
-        showSucessMessageToUser();
+        showSuccessMessageToUser();
         resetForm();
       } else {
         throw new Error();

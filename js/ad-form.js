@@ -188,7 +188,7 @@ const addAdvertFormChek = () => {
    * При изменении "время заезда" - "время выезда" изменяется на такое же.
    * И наоборот, при изменении "время выезда" - меняется "время заезда".
    */
-  const onAdvertTymeChange = () => {
+  const onAdvertTimeChange = () => {
     advertTimeIn.addEventListener('change', () => {
       advertTimeOut.value = advertTimeIn.value;
     });
@@ -293,7 +293,7 @@ const addAdvertFormChek = () => {
   onAdvertTypeInput();
   onAdvertTypeChange();
   onAdvertPriceInput();
-  onAdvertTymeChange();
+  onAdvertTimeChange();
   onAdvertRoomNumberChange();
   onFormResetClick();
   onAdvertFormSubmitClick();

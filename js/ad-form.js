@@ -307,7 +307,7 @@ const addAdvertFormChek = () => {
 /**
  * Добавляет предпоказ аватарки пользователя
  */
-const addAvatarPreviewContainer = () => {
+const addAvatarPreview = () => {
   const fileChooserContainer = document.querySelector('#avatar');
   const previewContainer = document.querySelector('.ad-form-header__preview').querySelector('img');
 
@@ -326,7 +326,7 @@ const addAvatarPreviewContainer = () => {
 /**
  * Добавляет предпоказ фотографии объявления
  */
-const addImagePreviewContainer = () => {
+const addImagePreview = () => {
   const fileChooserContainer = document.querySelector('#images');
   const previewContainer = document.querySelector('.ad-form__photo');
 
@@ -345,4 +345,4 @@ const addImagePreviewContainer = () => {
   });
 };
 
-export { addAdvertFormChek, addAvatarPreviewContainer, addImagePreviewContainer };
+export { addAdvertFormChek, addAvatarPreview, addImagePreview };

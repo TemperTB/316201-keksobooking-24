@@ -83,6 +83,10 @@ const resetAdvertForm = () => {
   changeBorderColor(advertTitleContainer, COLOR_MODEL);
   changeBorderColor(advertPriceContainer, COLOR_MODEL);
   changeBorderColor(advertCapacityContainer, COLOR_MODEL);
+
+  const houseTypeContainer = document.querySelector('#housing-type');
+  houseTypeContainer.value = 'any';
+  houseTypeContainer.dispatchEvent(new Event('change'));
 };
 
 /**
@@ -305,7 +309,7 @@ const addAdvertFormChek = () => {
  */
 const addAvatarPreviewContainer = () => {
   const fileChooserContainer = document.querySelector('#avatar');
-  const previewContainer = document.querySelector('.ad-form-header__previewContainer').querySelector('img');
+  const previewContainer = document.querySelector('.ad-form-header__preview').querySelector('img');
 
   fileChooserContainer.addEventListener('change', () => {
     const file = fileChooserContainer.files[0];
